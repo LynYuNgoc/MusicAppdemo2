@@ -2,10 +2,13 @@ package com.example.musicappdemo2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -40,26 +43,54 @@ public class MainActivity extends AppCompatActivity {
 
 
         //creating an ArrayList to store songs
-        ArrayList<Integer> songs = new ArrayList<>();
+        final ArrayList<Integer> songs = new ArrayList<>();
 
         songs.add(0,R.raw.sound1);
-        songs.add(0,R.raw.sound2);
-        songs.add(0,R.raw.sound3);
-        songs.add(0,R.raw.sound4);
+        songs.add(1,R.raw.sound2);
+        songs.add(2,R.raw.sound3);
+        songs.add(3,R.raw.sound4);
 
         //intializing Mediaplayer
         mMediaPlayer = MediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
+
+
+        //seekBar volume
+        int maxV = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int curV = mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        mSeekBarVol.setMax(maxV);
+        mSeekBarVol.setProgress(curV);
+        mSeekBarVol.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+
+
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mMediaPlayer != null && mMediaPlayer.isPlaying()){
                     mMediaPlayer.pause();
-                    play.setImageResource(R.drawable.play_btn);
+                    play.setImageResource(R.drawable.pause_icon);
                 }else {
                     mMediaPlayer.start();
-                    play.setImageResource(R.drawable.pause_btn);
+                    play.setImageResource(R.drawable.pause_icon);
                 }
+                SongNames();
             }
         });
 
@@ -67,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mMediaPlayer != null){
-                    play.setImageResource(R.drawable.pause_btn);
+                    play.setImageResource(R.drawable.pause_icon);
                 }
                 if(currentIndex < songs.size() - 1){
                     currentIndex++;
@@ -79,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 mMediaPlayer = mMediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
                 mMediaPlayer.start();
+                SongNames();
             }
         });
 
@@ -86,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mMediaPlayer != null){
-                    play.setImageResource(R.drawable.pause_btn);
+                    play.setImageResource(R.drawable.pause_icon);
                 }
                 if(currentIndex > 0){
                     currentIndex--;
@@ -99,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
                 mMediaPlayer = mMediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
                 mMediaPlayer.start();
-
+                SongNames();
             }
         });
     }
@@ -121,5 +153,53 @@ public class MainActivity extends AppCompatActivity {
             songTitle.setText("Wo Ai Ta - Nhac Trung");
             imageView.setImageResource(R.drawable.woaita);
         }
+
+        //seekBar duration(khoang thoi gian)
+        mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mSeekBarTime.setMax(mMediaPlayer.getDuration());
+                mMediaPlayer.start();
+            }
+        });
+
+        mSeekBarTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if(fromUser){
+                    mMediaPlayer.seekTo(progress);
+                    mSeekBarTime.setProgress(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mMediaPlayer != null){
+                    try{
+                        if(mMediaPlayer.isPlaying()){
+                            Message message = new Message();
+                            message.what = mMediaPlayer.getCurrentPosition();
+                            //handler.sendMessage(message);
+                            Thread.sleep(1000);
+                        }
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
+    //@SuppressLint("Handler Leak") Handler handler = new Handler()
 }
