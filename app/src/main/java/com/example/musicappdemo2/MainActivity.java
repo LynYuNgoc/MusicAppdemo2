@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         //ánh xạ View bottom_navi
         BottomNavigationView navigationView = findViewById(R.id.bottom_navi);
-
+        //???
 
     }
 
