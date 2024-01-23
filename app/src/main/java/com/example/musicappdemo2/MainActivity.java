@@ -1,18 +1,25 @@
 package com.example.musicappdemo2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
@@ -49,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
         songs.add(1,R.raw.sound2);
         songs.add(2,R.raw.sound3);
         songs.add(3,R.raw.sound4);
+        songs.add(4,R.raw.tungcautungchu);
+        songs.add(5,R.raw.chodoicodangso);
 
         //intializing Mediaplayer
         mMediaPlayer = MediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
@@ -134,6 +143,21 @@ public class MainActivity extends AppCompatActivity {
                 SongNames();
             }
         });
+
+        //button login
+        Button login = (Button) findViewById(R.id.btnlogin);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+            }
+        });
+
+        //ánh xạ View bottom_navi
+        BottomNavigationView navigationView = findViewById(R.id.bottom_navi);
+
+
     }
 
     private void SongNames(){
@@ -152,6 +176,14 @@ public class MainActivity extends AppCompatActivity {
         if(currentIndex == 3){
             songTitle.setText("Wo Ai Ta - Nhac Trung");
             imageView.setImageResource(R.drawable.woaita);
+        }
+        if(currentIndex == 4){
+            songTitle.setText("Tung Cau Tung Chu - Nhac Trung");
+            imageView.setImageResource(R.drawable.tungcautungchu);
+        }
+        if(currentIndex == 5){
+            songTitle.setText("Cho Doi Co Dang So");
+            imageView.setImageResource(R.drawable.chodoi);
         }
 
         //seekBar duration(khoang thoi gian)
