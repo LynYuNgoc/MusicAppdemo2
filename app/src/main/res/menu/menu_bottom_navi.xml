@@ -1,18 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_home"
-        android:title="@string/action_home"
-        android:icon="@drawable/home_icon"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/action_search"
-        android:title="@string/action_search"
-        android:icon="@drawable/search_icon"/>
+    <item
+        android:id="@+id/mnBottomHome"
+        android:icon="@drawable/home_icon"
+        android:title="Home"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/action_playlist"
-        android:title="@string/action_playlist"
-        android:icon="@drawable/playlist_icon"/>
+    <item
+        android:id="@+id/mnBottomSearch"
+        android:icon="@drawable/search_icon"
+        android:title="Search"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/action_user"
-        android:title="@string/action_user"
-        android:icon="@drawable/user_icon"/>
+    <item
+        android:id="@+id/mnBottomLibrary"
+        android:icon="@drawable/playlist_icon"
+        android:title="Library"
+        app:showAsAction="always"
+
+        />
+
+    <item
+        android:id="@+id/mnBottomUser"
+        android:icon="@drawable/user_icon"
+        android:title="User"
+        app:showAsAction="always" />
 </menu>

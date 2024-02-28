@@ -1,30 +1,26 @@
 package com.example.musicappdemo2;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class PlayMusicActivity extends AppCompatActivity {
 
+    BottomNavigationView navigationView;
     ImageView play, prev, next, imageView;
     TextView songTitle;
     SeekBar mSeekBarTime, mSeekBarVol;
@@ -36,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_playmusic);
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
@@ -84,9 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
 
         play.setOnClickListener(new View.OnClickListener() {
@@ -149,14 +142,11 @@ public class MainActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Login.class);
+                Intent intent = new Intent(PlayMusicActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
 
-        //ánh xạ View bottom_navi
-        BottomNavigationView navigationView = findViewById(R.id.bottom_navi);
-        //???
 
     }
 
