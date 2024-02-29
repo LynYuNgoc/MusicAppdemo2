@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.musicappdemo2.fragment.HomePageFragment;
 import com.example.musicappdemo2.fragment.LibraryFragment;
+import com.example.musicappdemo2.fragment.LogInFragment;
 import com.example.musicappdemo2.fragment.SearchFragment;
 import com.example.musicappdemo2.fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.mnBottomUser) {
 
-                    setFragment(new UserFragment());
+                    setFragment(new LogInFragment());
                 }
 
 
