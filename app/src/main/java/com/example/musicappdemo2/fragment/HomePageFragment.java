@@ -2,7 +2,10 @@ package com.example.musicappdemo2.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,5 +65,36 @@ public class HomePageFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home_page, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        addCategory();
+        addArtist();
+        addAlbumHot();
+        addChill();
+
+    }
+
+    void addCategory() {
+        Fragment childFragment = new ListHomePageCategoryFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayoutHorizontalCategory, childFragment).commit();
+    }
+    void addArtist() {
+        Fragment childFragment = new ListHomePageArtistFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayoutHorizontalArtist, childFragment).commit();
+    }
+    void addAlbumHot() {
+        Fragment childFragment = new ListHomePageAlbumHotFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayoutHorizontalAlbumHot, childFragment).commit();
+    }
+    void addChill() {
+        Fragment childFragment = new ListHomePageChillFragment();
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayoutHorizontalChill, childFragment).commit();
     }
 }
