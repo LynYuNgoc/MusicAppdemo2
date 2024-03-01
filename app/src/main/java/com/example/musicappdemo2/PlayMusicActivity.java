@@ -137,15 +137,7 @@ public class PlayMusicActivity extends AppCompatActivity {
             }
         });
 
-        //button login
-        Button login = (Button) findViewById(R.id.btnlogin);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PlayMusicActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
 
     }
