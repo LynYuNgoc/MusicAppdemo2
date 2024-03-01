@@ -39,7 +39,7 @@ public class AlbumCategoryAdapter extends RecyclerView.Adapter {
         albumCategoryViewHolder.textViewName.setText(item.getName());
 
         //avatar
-        //albumCategoryViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "artist_image"));
+        albumCategoryViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "category_image"));
 
     }
 

@@ -82,10 +82,10 @@ public class ListHomePageArtistFragment extends Fragment {
 
     void initSampleData() {
         albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album006","Trung Quan", "default_avatar_1.jpg", "Trung Quan"));
-        albumItems.add(new AlbumItem("album007","Hoa Minzy", "default_avatar_2.jpg", "Hoa Minzy"));
-        albumItems.add(new AlbumItem("album008","Taylor Swift", "default_avatar_3.jpg", "Taylor Swift"));
-        albumItems.add(new AlbumItem("album009","IU", "default_avatar_3.jpg", "IU"));
-        albumItems.add(new AlbumItem("album010","Charlie Puth", "default_avatar_2.jpg", "Charlie Puth"));
+        albumItems.add(new AlbumItem("album006","Trung Quan", "trung_quan.jpg", "Trung Quan"));
+        albumItems.add(new AlbumItem("album007","Hoa Minzy", "hoa_minzy.jpg", "Hoa Minzy"));
+        albumItems.add(new AlbumItem("album008","Taylor Swift", "taylor.jpg", "Taylor Swift"));
+        albumItems.add(new AlbumItem("album009","IU", "iu.jpg", "IU"));
+        albumItems.add(new AlbumItem("album010","Charlie Puth", "charlie.jpg", "Charlie Puth"));
     }
 }

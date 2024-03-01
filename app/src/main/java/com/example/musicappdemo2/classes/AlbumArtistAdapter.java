@@ -37,6 +37,10 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter {
         AlbumItem item = albumItems.get(position);
         AlbumArtistViewHolder albumArtistViewHolder =(AlbumArtistViewHolder) holder;
         albumArtistViewHolder.textViewName.setText(item.getName());
+
+        //avatar
+        albumArtistViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "artist_image"));
+
     }
 
     @Override

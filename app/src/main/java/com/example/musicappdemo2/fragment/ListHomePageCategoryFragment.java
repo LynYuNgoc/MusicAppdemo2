@@ -82,10 +82,10 @@ public class ListHomePageCategoryFragment extends Fragment {
 
     void initSampleData() {
         albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album001","Nhac Viet", "default_avatar_1.jpg", "Nhac Viet"));
-        albumItems.add(new AlbumItem("album002","Nhac Han", "default_avatar_2.jpg", "Nhac Han"));
-        albumItems.add(new AlbumItem("album003","Nhac Trung", "default_avatar_3.jpg", "Nhac Trung"));
-        albumItems.add(new AlbumItem("album004","Nhac Au My", "default_avatar_3.jpg", "Nhac Au My"));
-        albumItems.add(new AlbumItem("album005","Nhac Nhat", "default_avatar_2.jpg", "Nhac Nhat"));
+        albumItems.add(new AlbumItem("album001","Nhac Viet", "nhac_viet.jpg", "Nhac Viet"));
+        albumItems.add(new AlbumItem("album002","Nhac Han", "nhac_han.jpg", "Nhac Han"));
+        albumItems.add(new AlbumItem("album003","Nhac Trung", "nhac_trung.jpg", "Nhac Trung"));
+        albumItems.add(new AlbumItem("album004","Nhac Au My", "nhac_au_my.jpg", "Nhac Au My"));
+        albumItems.add(new AlbumItem("album005","Nhac Nhat", "nhac_nhat.jpg", "Nhac Nhat"));
     }
 }
