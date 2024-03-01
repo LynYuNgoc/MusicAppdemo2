@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class PlayMusicActivity extends AppCompatActivity {
 
-    BottomNavigationView navigationView;
+
     ImageView play, prev, next, imageView;
     TextView songTitle;
     SeekBar mSeekBarTime, mSeekBarVol;
