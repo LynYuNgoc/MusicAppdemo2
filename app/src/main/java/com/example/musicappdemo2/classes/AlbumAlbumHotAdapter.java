@@ -17,12 +17,14 @@ import java.util.ArrayList;
 public class AlbumAlbumHotAdapter extends RecyclerView.Adapter{
     ArrayList<AlbumItem> albumItems;
 
-    public AlbumAlbumHotAdapter(ArrayList<AlbumItem> albumItems, Context context) {
+    public AlbumAlbumHotAdapter(ArrayList<AlbumItem> albumItems, Context context, AlbumAlbumHotOnClickListener albumAlbumHotOnClickListener) {
         this.albumItems = albumItems;
         this.context = context;
+        this.albumAlbumHotOnClickListener =albumAlbumHotOnClickListener;
     }
 
     Context context;
+    AlbumAlbumHotOnClickListener albumAlbumHotOnClickListener;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,6 +39,10 @@ public class AlbumAlbumHotAdapter extends RecyclerView.Adapter{
         AlbumItem item = albumItems.get(position);
         AlbumAlbumHotViewHolder albumAlbumHotViewHolder = (AlbumAlbumHotViewHolder) holder;
         albumAlbumHotViewHolder.textViewName.setText(item.getName());
+
+        albumAlbumHotViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
+
+        albumAlbumHotViewHolder.itemView.setOnClickListener(v -> albumAlbumHotOnClickListener.onClickAtItem(position));
     }
 
     @Override
@@ -55,5 +61,9 @@ public class AlbumAlbumHotAdapter extends RecyclerView.Adapter{
             imageViewAvatar = itemView.findViewById(R.id.imageViewItemAlbumHotAvatar);
             textViewName = itemView.findViewById(R.id.textViewItemAlbumHotName);
         }
+    }
+
+    public interface AlbumAlbumHotOnClickListener {
+        void onClickAtItem(int position);
     }
 }

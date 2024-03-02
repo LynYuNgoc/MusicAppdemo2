@@ -17,12 +17,14 @@ import java.util.ArrayList;
 public class AlbumArtistAdapter extends RecyclerView.Adapter {
     ArrayList<AlbumItem> albumItems;
 
-    public AlbumArtistAdapter(ArrayList<AlbumItem> albumItems, Context context) {
+    public AlbumArtistAdapter(ArrayList<AlbumItem> albumItems, Context context, AlbumArtistOnClickListener albumArtistOnClickListener) {
         this.albumItems = albumItems;
         this.context = context;
+        this.albumArtistOnClickListener = albumArtistOnClickListener;
     }
 
     Context context;
+    AlbumArtistOnClickListener albumArtistOnClickListener;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,8 +41,9 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter {
         albumArtistViewHolder.textViewName.setText(item.getName());
 
         //avatar
-        albumArtistViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "artist_image"));
+        albumArtistViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
 
+        albumArtistViewHolder.itemView.setOnClickListener(v -> albumArtistOnClickListener.onClickAtItem(position));
     }
 
     @Override
@@ -59,5 +62,9 @@ public class AlbumArtistAdapter extends RecyclerView.Adapter {
             imageViewAvatar = itemView.findViewById(R.id.imageViewItemArtistAvatar);
             textViewName = itemView.findViewById(R.id.textViewItemArtistName);
         }
+    }
+
+    public interface AlbumArtistOnClickListener {
+        void onClickAtItem(int position);
     }
 }

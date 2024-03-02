@@ -17,12 +17,14 @@ import java.util.ArrayList;
 public class AlbumCategoryAdapter extends RecyclerView.Adapter {
     ArrayList<AlbumItem> albumItems;
 
-    public AlbumCategoryAdapter(ArrayList<AlbumItem> albumItems, Context context) {
+    public AlbumCategoryAdapter(ArrayList<AlbumItem> albumItems, Context context, AlbumCategoryOnClickListener albumCategoryOnClickListener) {
         this.albumItems = albumItems;
         this.context = context;
+        this.albumCategoryOnClickListener = albumCategoryOnClickListener;
     }
 
     Context context;
+    AlbumCategoryOnClickListener albumCategoryOnClickListener;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,8 +41,8 @@ public class AlbumCategoryAdapter extends RecyclerView.Adapter {
         albumCategoryViewHolder.textViewName.setText(item.getName());
 
         //avatar
-        albumCategoryViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "category_image"));
-
+        albumCategoryViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
+        albumCategoryViewHolder.itemView.setOnClickListener(v -> albumCategoryOnClickListener.onClickAtItem(position));
     }
 
     @Override
@@ -57,5 +59,9 @@ public class AlbumCategoryAdapter extends RecyclerView.Adapter {
             imageViewAvatar = itemView.findViewById(R.id.imageViewItemCategoryAvatar);
             textViewName = itemView.findViewById(R.id.textViewItemCategoryName);
         }
+    }
+
+    public interface AlbumCategoryOnClickListener {
+        void onClickAtItem(int position);
     }
 }

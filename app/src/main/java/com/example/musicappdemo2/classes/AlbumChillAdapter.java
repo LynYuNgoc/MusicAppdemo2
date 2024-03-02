@@ -17,12 +17,14 @@ import java.util.ArrayList;
 public class AlbumChillAdapter extends RecyclerView.Adapter {
     ArrayList<AlbumItem> albumItems;
 
-    public AlbumChillAdapter(ArrayList<AlbumItem> albumItems, Context context) {
+    public AlbumChillAdapter(ArrayList<AlbumItem> albumItems, Context context, AlbumChillOnClickListener albumChillOnClickListener) {
         this.albumItems = albumItems;
         this.context = context;
+        this.albumChillOnClickListener = albumChillOnClickListener;
     }
 
     Context context;
+    AlbumChillOnClickListener albumChillOnClickListener;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,6 +32,8 @@ public class AlbumChillAdapter extends RecyclerView.Adapter {
         View view = inflater.inflate(R.layout.item_layout_album_chill, parent, false);
         AlbumChillViewHolder viewHolder = new AlbumChillViewHolder(view);
         return viewHolder;
+
+
     }
 
     @Override
@@ -37,6 +41,10 @@ public class AlbumChillAdapter extends RecyclerView.Adapter {
         AlbumItem item = albumItems.get(position);
         AlbumChillViewHolder albumChillViewHolder = (AlbumChillViewHolder) holder;
         albumChillViewHolder.textViewName.setText(item.getName());
+
+        albumChillViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
+
+        albumChillViewHolder.itemView.setOnClickListener(v -> albumChillOnClickListener.onClickAtItem(position));
     }
 
     @Override
@@ -55,5 +63,9 @@ public class AlbumChillAdapter extends RecyclerView.Adapter {
             imageViewAvatar = itemView.findViewById(R.id.imageViewItemChillAvatar);
             textViewName = itemView.findViewById(R.id.textViewItemChillName);
         }
+    }
+
+    public interface AlbumChillOnClickListener {
+        void onClickAtItem(int position);
     }
 }

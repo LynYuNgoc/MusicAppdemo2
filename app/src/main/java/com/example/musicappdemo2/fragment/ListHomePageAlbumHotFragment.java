@@ -1,5 +1,6 @@
 package com.example.musicappdemo2.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumAlbumHotAdapter;
 import com.example.musicappdemo2.classes.AlbumCategoryAdapter;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  * Use the {@link ListHomePageAlbumHotFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListHomePageAlbumHotFragment extends Fragment {
+public class ListHomePageAlbumHotFragment extends Fragment implements AlbumAlbumHotAdapter.AlbumAlbumHotOnClickListener {
 
     ArrayList<AlbumItem> albumItems;
     RecyclerView recyclerView;
@@ -74,7 +76,7 @@ public class ListHomePageAlbumHotFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list_home_page_album_hot, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewAlbumHot);
-        AlbumAlbumHotAdapter albumAlbumHotAdapter = new AlbumAlbumHotAdapter(albumItems,getContext());
+        AlbumAlbumHotAdapter albumAlbumHotAdapter = new AlbumAlbumHotAdapter(albumItems,getContext(), this);
         recyclerView.setAdapter(albumAlbumHotAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
 
@@ -87,5 +89,12 @@ public class ListHomePageAlbumHotFragment extends Fragment {
         albumItems.add(new AlbumItem("album012","Loi Choi", "default_avatar_2.jpg", "Loi Choi"));
         albumItems.add(new AlbumItem("album013","Ve Nha An Tet", "default_avatar_3.jpg", "Ve Nha An Tet"));
         albumItems.add(new AlbumItem("album014","Vu Tru Co Bay", "default_avatar_3.jpg", "Vu Tru Co Bay"));
+    }
+
+    @Override
+    public void onClickAtItem(int position) {
+        Intent i = new Intent(getActivity(), AlbumSongActivity.class);
+        i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME",albumItems.get(position));
+        startActivity(i);
     }
 }

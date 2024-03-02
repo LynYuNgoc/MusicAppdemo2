@@ -1,5 +1,6 @@
 package com.example.musicappdemo2.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumCategoryAdapter;
 import com.example.musicappdemo2.classes.AlbumChillAdapter;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
  * Use the {@link ListHomePageChillFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListHomePageChillFragment extends Fragment {
+public class ListHomePageChillFragment extends Fragment implements AlbumChillAdapter.AlbumChillOnClickListener{
 
     ArrayList<AlbumItem> albumItems;
     RecyclerView recyclerView;
@@ -74,7 +76,7 @@ public class ListHomePageChillFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list_home_page_chill, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewChill);
-        AlbumChillAdapter albumChillAdapter = new AlbumChillAdapter(albumItems,getContext());
+        AlbumChillAdapter albumChillAdapter = new AlbumChillAdapter(albumItems,getContext(), this);
         recyclerView.setAdapter(albumChillAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
 
@@ -87,5 +89,12 @@ public class ListHomePageChillFragment extends Fragment {
         albumItems.add(new AlbumItem("album016","Acoustic", "default_avatar_2.jpg", "Acoustic"));
         albumItems.add(new AlbumItem("album017","Piano", "default_avatar_3.jpg", "Piano"));
         albumItems.add(new AlbumItem("album018","Lofi", "default_avatar_3.jpg", "Lofi"));
+    }
+
+    @Override
+    public void onClickAtItem(int position) {
+        Intent i = new Intent(getActivity(), AlbumSongActivity.class);
+        i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME",albumItems.get(position));
+        startActivity(i);
     }
 }

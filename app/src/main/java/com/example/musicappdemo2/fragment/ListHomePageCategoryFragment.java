@@ -1,5 +1,6 @@
 package com.example.musicappdemo2.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumCategoryAdapter;
 import com.example.musicappdemo2.classes.AlbumItem;
@@ -21,7 +23,7 @@ import java.util.ArrayList;
  * Use the {@link ListHomePageCategoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListHomePageCategoryFragment extends Fragment {
+public class ListHomePageCategoryFragment extends Fragment implements AlbumCategoryAdapter.AlbumCategoryOnClickListener{
 
     ArrayList<AlbumItem> albumItems;
     RecyclerView recyclerView;
@@ -73,7 +75,7 @@ public class ListHomePageCategoryFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_list_home_page_category, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewCategory);
-        AlbumCategoryAdapter albumCategoryAdapter = new AlbumCategoryAdapter(albumItems,getContext());
+        AlbumCategoryAdapter albumCategoryAdapter = new AlbumCategoryAdapter(albumItems,getContext(), this);
         recyclerView.setAdapter(albumCategoryAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
 
@@ -87,5 +89,13 @@ public class ListHomePageCategoryFragment extends Fragment {
         albumItems.add(new AlbumItem("album003","Nhac Trung", "nhac_trung.jpg", "Nhac Trung"));
         albumItems.add(new AlbumItem("album004","Nhac Au My", "nhac_au_my.jpg", "Nhac Au My"));
         albumItems.add(new AlbumItem("album005","Nhac Nhat", "nhac_nhat.jpg", "Nhac Nhat"));
+    }
+
+    @Override
+    public void onClickAtItem(int position) {
+        Intent i = new Intent(getActivity(), AlbumSongActivity.class);
+        i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME",albumItems.get(position));
+        startActivity(i);
+
     }
 }

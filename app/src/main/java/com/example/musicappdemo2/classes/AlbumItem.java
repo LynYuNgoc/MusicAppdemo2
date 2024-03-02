@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class AlbumItem {
+public class AlbumItem implements Parcelable{
 
     String id;
     String name;
@@ -19,6 +19,25 @@ public class AlbumItem {
         this.avatar = avatar;
         this.info = info;
     }
+
+    protected AlbumItem(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        avatar = in.readString();
+        info = in.readString();
+    }
+
+    public static final Creator<AlbumItem> CREATOR = new Creator<AlbumItem>() {
+        @Override
+        public AlbumItem createFromParcel(Parcel in) {
+            return new AlbumItem(in);
+        }
+
+        @Override
+        public AlbumItem[] newArray(int size) {
+            return new AlbumItem[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -52,35 +71,17 @@ public class AlbumItem {
         this.info = info;
     }
 
-    protected AlbumItem(Parcel in) {
-        id = in.readString();
-        name = in.readString();
-        avatar = in.readString();
-        info = in.readString();
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public static final Parcelable.Creator<AlbumItem> CREATOR = new Parcelable.Creator<AlbumItem>() {
-        @Override
-        public AlbumItem createFromParcel(Parcel in) {
-            return new AlbumItem(in);
-        }
-
-        @Override
-        public AlbumItem[] newArray(int size) {
-            return new AlbumItem[size];
-        }
-    };
-
-//    @Override
-//    public int describeContents() {
-//        return 0;
-//    }
-//
-//    @Override
-//    public void writeToParcel(@NonNull Parcel dest, int flags) {
-//        dest.writeString(id);
-//        dest.writeString(name);
-//        dest.writeString(avatar);
-//        dest.writeString(info);
-//    }
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(avatar);
+        dest.writeString(info);
+    }
 }
