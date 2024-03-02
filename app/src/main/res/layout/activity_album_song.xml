@@ -53,7 +53,7 @@
             android:text="Phát Bài Hát " />
 
         <FrameLayout
-            android:id="@+id/frameLayoutListSong"
+            android:id="@+id/frameLayoutAlbumSong"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

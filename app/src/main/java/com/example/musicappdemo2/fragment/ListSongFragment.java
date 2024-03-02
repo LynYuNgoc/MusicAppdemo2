@@ -3,12 +3,19 @@ package com.example.musicappdemo2.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.musicappdemo2.R;
+import com.example.musicappdemo2.classes.AlbumItem;
+import com.example.musicappdemo2.classes.ListSongAdapter;
+import com.example.musicappdemo2.classes.SongItem;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +23,9 @@ import com.example.musicappdemo2.R;
  * create an instance of this fragment.
  */
 public class ListSongFragment extends Fragment {
+
+    ArrayList<SongItem> songItems;
+    RecyclerView recyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,12 +65,34 @@ public class ListSongFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        initSampleData();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_list_song, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_song, container, false);
+        recyclerView = view.findViewById(R.id.recyclerViewListSong);
+        ListSongAdapter listSongAdapter = new ListSongAdapter(songItems, getContext());
+        recyclerView.setAdapter(listSongAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        return view;
+    }
+
+    void initSampleData() {
+        songItems = new ArrayList<SongItem>();
+        songItems.add(new SongItem("song001","song001", "singer001.jpg", "singer001", "song01.jpg"));
+        songItems.add(new SongItem("song002","song002", "singer001.jpg", "singer001", "song02.jpg"));
+        songItems.add(new SongItem("song003","song003", "singer001.jpg", "singer001", "song03.jpg"));
+        songItems.add(new SongItem("song004","song004", "singer001.jpg", "singer001", "song04.jpg"));
+        songItems.add(new SongItem("song005","song005", "singer001.jpg", "singer001", "song05.jpg"));
+        songItems.add(new SongItem("song006","song006", "singer001.jpg", "singer001", "song06.jpg"));
+        songItems.add(new SongItem("song007","song007", "singer001.jpg", "singer001", "song07.jpg"));
+        songItems.add(new SongItem("song008","song008", "singer001.jpg", "singer001", "song08.jpg"));
+        songItems.add(new SongItem("song009","song009", "singer001.jpg", "singer001", "song09.jpg"));
+        songItems.add(new SongItem("song010","song010", "singer001.jpg", "singer001", "song10.jpg"));
+
     }
 }
