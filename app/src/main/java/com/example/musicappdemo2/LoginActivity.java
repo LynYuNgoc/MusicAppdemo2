@@ -9,22 +9,22 @@ import android.widget.Button;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button btLogin;
+//    Button btLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        btLogin = findViewById(R.id.buttonLogin);
-        btLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                i.putExtra("","");
-                startActivity(i);
-            }
-        });
+//        btLogin = findViewById(R.id.buttonLogin);
+//        btLogin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+//                i.putExtra("","");
+//                startActivity(i);
+//            }
+//        });
 
 
     }
