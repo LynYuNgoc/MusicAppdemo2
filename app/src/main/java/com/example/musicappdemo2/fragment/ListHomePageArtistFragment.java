@@ -84,11 +84,11 @@ public class ListHomePageArtistFragment extends Fragment implements AlbumArtistA
 
     void initSampleData() {
         albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album006","Trung Quan", "trung_quan.jpg", "Trung Quan"));
-        albumItems.add(new AlbumItem("album007","Hoa Minzy", "hoa_minzy.jpg", "Hoa Minzy"));
+        albumItems.add(new AlbumItem("album006","Sơn Tùng M-TP", "sontung1.jpg", "Sơn Tùng M-TP"));
+        albumItems.add(new AlbumItem("album007","Hoà Minzy", "hoa_minzy.jpg", "Hoa Minzy"));
         albumItems.add(new AlbumItem("album008","Taylor Swift", "taylor.jpg", "Taylor Swift"));
         albumItems.add(new AlbumItem("album009","IU", "iu.jpg", "IU"));
-        albumItems.add(new AlbumItem("album010","Charlie Puth", "charlie.jpg", "Charlie Puth"));
+        albumItems.add(new AlbumItem("album010","BTS", "bts1.jpg", "BTS"));
     }
 
     @Override

@@ -85,10 +85,10 @@ public class ListHomePageAlbumHotFragment extends Fragment implements AlbumAlbum
 
     void initSampleData() {
         albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album011","The Winning", "default_avatar_1.jpg", "The Winning"));
-        albumItems.add(new AlbumItem("album012","Loi Choi", "default_avatar_2.jpg", "Loi Choi"));
-        albumItems.add(new AlbumItem("album013","Ve Nha An Tet", "default_avatar_3.jpg", "Ve Nha An Tet"));
-        albumItems.add(new AlbumItem("album014","Vu Tru Co Bay", "default_avatar_3.jpg", "Vu Tru Co Bay"));
+        albumItems.add(new AlbumItem("album011","Em Xinh", "emxinh1.jpg", "The Winning"));
+        albumItems.add(new AlbumItem("album012","Ditney Hits", "disney1.jpg", "Loi Choi"));
+        albumItems.add(new AlbumItem("album013","Peaceful guitar", "guitar.jpg", "Ve Nha An Tet"));
+        albumItems.add(new AlbumItem("album014","Vũ Trụ Cò Bay", "vutrucobay1.jpg", "Vu Tru Co Bay"));
     }
 
     @Override

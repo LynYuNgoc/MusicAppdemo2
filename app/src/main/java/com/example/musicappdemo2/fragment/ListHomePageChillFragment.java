@@ -85,10 +85,10 @@ public class ListHomePageChillFragment extends Fragment implements AlbumChillAda
 
     void initSampleData() {
         albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album015","Jazz", "default_avatar_1.jpg", "Jazz"));
-        albumItems.add(new AlbumItem("album016","Acoustic", "default_avatar_2.jpg", "Acoustic"));
-        albumItems.add(new AlbumItem("album017","Piano", "default_avatar_3.jpg", "Piano"));
-        albumItems.add(new AlbumItem("album018","Lofi", "default_avatar_3.jpg", "Lofi"));
+        albumItems.add(new AlbumItem("album015","Jazz", "jazz.jpg", "Jazz"));
+        albumItems.add(new AlbumItem("album016","Acoustic", "Acoustic.jpg", "Acoustic"));
+        albumItems.add(new AlbumItem("album017","Piano", "piano.jpg", "Piano"));
+        albumItems.add(new AlbumItem("album018","Lofi", "lofibeats.jpg", "Lofi"));
     }
 
     @Override

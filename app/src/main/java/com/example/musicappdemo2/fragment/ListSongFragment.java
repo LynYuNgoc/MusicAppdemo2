@@ -83,10 +83,10 @@ public class ListSongFragment extends Fragment {
 
     void initSampleData() {
         songItems = new ArrayList<SongItem>();
-        songItems.add(new SongItem("song001","song001", "singer001.jpg", "singer001", "song01.jpg"));
-        songItems.add(new SongItem("song002","song002", "singer001.jpg", "singer001", "song02.jpg"));
-        songItems.add(new SongItem("song003","song003", "singer001.jpg", "singer001", "song03.jpg"));
-        songItems.add(new SongItem("song004","song004", "singer001.jpg", "singer001", "song04.jpg"));
+        songItems.add(new SongItem("id 072019","id 072019", "singer001.jpg", "W/N", "song1.jpg"));
+        songItems.add(new SongItem("song002","Chúng ta rồi sẽ hạnh phúc", "singer001.jpg", "singer001", "song2.jpg"));
+        songItems.add(new SongItem("song003","Có hẹn với thanh xuân", "singer001.jpg", "singer001", "song3.jpg"));
+        songItems.add(new SongItem("song004","Một Bước Yêu Vạn Dặm Đau", "singer001.jpg", "singer001", "song4.jpg"));
         songItems.add(new SongItem("song005","song005", "singer001.jpg", "singer001", "song05.jpg"));
         songItems.add(new SongItem("song006","song006", "singer001.jpg", "singer001", "song06.jpg"));
         songItems.add(new SongItem("song007","song007", "singer001.jpg", "singer001", "song07.jpg"));

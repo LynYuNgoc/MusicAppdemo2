@@ -84,11 +84,11 @@ public class ListHomePageCategoryFragment extends Fragment implements AlbumCateg
 
     void initSampleData() {
         albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album001","Nhac Viet", "nhac_viet.jpg", "Nhac Viet"));
-        albumItems.add(new AlbumItem("album002","Nhac Han", "nhac_han.jpg", "Nhac Han"));
-        albumItems.add(new AlbumItem("album003","Nhac Trung", "nhac_trung.jpg", "Nhac Trung"));
-        albumItems.add(new AlbumItem("album004","Nhac Au My", "nhac_au_my.jpg", "Nhac Au My"));
-        albumItems.add(new AlbumItem("album005","Nhac Nhat", "nhac_nhat.jpg", "Nhac Nhat"));
+        albumItems.add(new AlbumItem("album001","Nhạc Việt", "nhac_viet.jpg", "Nhac Viet"));
+        albumItems.add(new AlbumItem("album002","Nhạc Hàn", "nhac_han.jpg", "Nhac Han"));
+        albumItems.add(new AlbumItem("album003","Nhạc Trung", "nhac_trung.jpg", "Nhac Trung"));
+        albumItems.add(new AlbumItem("album004","Nhạc Âu Mỹ", "nhac_au_my.jpg", "Nhac Au My"));
+        albumItems.add(new AlbumItem("album005","Nhạc Nhật", "nhac_nhat.jpg", "Nhac Nhat"));
     }
 
     @Override
