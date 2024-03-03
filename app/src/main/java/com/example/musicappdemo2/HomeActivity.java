@@ -47,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.mnBottomUser) {
 
-                    setFragment(new LogInFragment());
+                    setFragment(new UserFragment());
                 }
 
 
