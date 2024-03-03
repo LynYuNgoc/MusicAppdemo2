@@ -21,7 +21,7 @@ import com.example.musicappdemo2.R;
 
 
 public class LogInFragment extends Fragment {
-    private TextView dontHaveAnAccount;
+
     private TextView resetPassword;
     private FrameLayout frameLayout;
     private Drawable errorIcon;
@@ -30,6 +30,8 @@ public class LogInFragment extends Fragment {
     private Button signInButton;
     private ProgressBar signInProgess;
 
+    private Button singUpButton;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +39,7 @@ public class LogInFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        dontHaveAnAccount = view.findViewById(R.id.dont_have_an_account);
+
         resetPassword = view.findViewById(R.id.reset_password);
         frameLayout=getActivity().findViewById(R.id.register_frame_layout);
 
@@ -47,6 +49,8 @@ public class LogInFragment extends Fragment {
         signInButton = view.findViewById(R.id.signInButton);
         signInProgess = view.findViewById(R.id.signInProgress);
 
+        //singUpButton = view.findViewById(R.id.signUpButton);
+
         return view;
 
     }
@@ -55,12 +59,7 @@ public class LogInFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        dontHaveAnAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setFragment(new SignUpFragment());
-            }
-        });
+
 
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override

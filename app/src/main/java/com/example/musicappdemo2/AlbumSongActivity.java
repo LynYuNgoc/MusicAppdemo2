@@ -66,5 +66,9 @@ public class AlbumSongActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
 
 }
