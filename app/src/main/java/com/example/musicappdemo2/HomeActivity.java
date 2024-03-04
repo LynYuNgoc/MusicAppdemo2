@@ -24,6 +24,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        setupBottomMenu();
+
 
         bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -68,6 +70,21 @@ public class HomeActivity extends AppCompatActivity {
         transaction.replace(R.id.fragmentContainerView, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    void setupBottomMenu() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomnavigation);
+        bottomNavigationView.setOnItemSelectedListener(onItemSelectedListener());
+        setFragment(new HomePageFragment());
+    }
+
+    private NavigationBarView.OnItemSelectedListener onItemSelectedListener() {
+        return new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return true;
+            }
+        };
     }
 
 }

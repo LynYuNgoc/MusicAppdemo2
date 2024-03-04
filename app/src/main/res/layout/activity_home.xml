@@ -10,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/dark_background"
+        android:fontFamily="@font/circular_std"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:title="MUSIC APP"
+        app:navigationIcon="@drawable/logo"
+        app:title="MUZIC"
+
         app:titleCentered="true"
-        app:titleTextColor="@color/white"
-        android:fontFamily="@font/circular_std"
-        />
+        app:titleTextColor="@color/endColor" />
 
     <FrameLayout
         android:id="@+id/fragmentContainerView"
