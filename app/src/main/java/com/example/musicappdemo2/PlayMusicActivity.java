@@ -1,6 +1,7 @@
 package com.example.musicappdemo2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public class PlayMusicActivity extends AppCompatActivity {
 
-
+    Toolbar toolbarBack;
     ImageView play, prev, next, imageView;
     TextView songTitle;
     SeekBar mSeekBarTime, mSeekBarVol;
@@ -43,6 +44,17 @@ public class PlayMusicActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         mSeekBarTime = findViewById(R.id.seekBarTime);
         mSeekBarVol = findViewById(R.id.seekBarVol);
+
+        toolbarBack = findViewById(R.id.toolbarBackListSong);
+        setSupportActionBar(toolbarBack);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbarBack.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
 
         //creating an ArrayList to store songs
