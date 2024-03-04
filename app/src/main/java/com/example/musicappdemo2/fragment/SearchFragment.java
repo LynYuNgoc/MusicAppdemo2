@@ -3,6 +3,8 @@ package com.example.musicappdemo2.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,7 +69,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -79,8 +81,13 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+        Toolbar toolbar = (Toolbar) view.findViewById(R.id.materialToolbarSearch);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         recyclerView = view.findViewById(R.id.recyclerViewSearchSong);
         SearchFilterAdapter searchFilterAdapter = new SearchFilterAdapter(searchFilterItems,getContext());
         recyclerView.setAdapter(searchFilterAdapter);
@@ -109,5 +116,6 @@ public class SearchFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search, menu);
+
     }
 }
