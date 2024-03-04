@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.musicappdemo2.HomeActivity;
 import com.example.musicappdemo2.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -26,6 +27,7 @@ public class UserFragment extends Fragment {
     View headerNavigation;
 
     ImageButton btAvatar, btSetting;
+    private HomeActivity homeActivity;
 
 
 
@@ -33,6 +35,8 @@ public class UserFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        homeActivity = (HomeActivity) getActivity();
+        homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
     }
 
 
@@ -44,9 +48,12 @@ public class UserFragment extends Fragment {
 
         return view;
 
+    }
 
-
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        homeActivity.showToolbar(); // Hiển thị lại thanh toolbar khi Fragment bị hủy
     }
 
     @Override

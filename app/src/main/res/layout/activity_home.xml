@@ -13,11 +13,11 @@
         android:fontFamily="@font/circular_std"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:navigationIcon="@drawable/logo"
         app:title="MUZIC"
-
         app:titleCentered="true"
-        app:titleTextColor="@color/endColor" />
+        app:titleTextColor="@color/endColor"
+
+        />
 
     <FrameLayout
         android:id="@+id/fragmentContainerView"

@@ -22,4 +22,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="pink_light">#F1D2DC</color>
     <color name="app_main_bg">#b91c84</color>
+    <item name="FlatWhite" type="color">#F5F5F5</item>
+    <color name="library_back_color">#FB181818</color>
 </resources>

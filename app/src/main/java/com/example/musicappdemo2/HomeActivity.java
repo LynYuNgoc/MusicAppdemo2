@@ -3,6 +3,9 @@ package com.example.musicappdemo2;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -20,12 +23,15 @@ import com.google.android.material.navigation.NavigationBarView;
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+    Toolbar myToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupBottomMenu();
 
+        myToolbar = findViewById(R.id.materialToolbar);
+        setSupportActionBar(myToolbar);
 
         bottomNavigationView = findViewById(R.id.bottomnavigation);
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -59,7 +65,19 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+    public void hideToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+    }
 
+    public void showToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+        }
+    }
     void setFragment(Fragment fragment){
         if(fragment==null){
             return;
