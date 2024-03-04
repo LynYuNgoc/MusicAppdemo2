@@ -49,6 +49,8 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i=new Intent(SignUpActivity.this,LoginActivity.class);
+                startActivity(i);
                 //Gọi hàm signUpWithFireBase
             }
         });
