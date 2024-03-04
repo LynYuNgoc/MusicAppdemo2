@@ -100,7 +100,8 @@ public class SearchFragment extends Fragment {
 
 
         recyclerView = view.findViewById(R.id.recyclerViewSearchSong);
-        SearchFilterAdapter searchFilterAdapter = new SearchFilterAdapter(searchFilterItems,getContext());
+        searchFilterAdapter = new SearchFilterAdapter(searchFilterItems,getContext());
+
         recyclerView.setAdapter(searchFilterAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
