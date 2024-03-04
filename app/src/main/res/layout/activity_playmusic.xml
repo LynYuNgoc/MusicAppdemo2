@@ -7,7 +7,6 @@
     android:background="@drawable/dark_background">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +14,15 @@
         tools:context=".PlayMusicActivity">
 
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarBackListSong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:navigationIcon="@drawable/baseline_arrow_back_ios_new_24"
+            app:navigationIconTint="@color/white" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView"
@@ -101,8 +109,6 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
 
 
 </ScrollView>
