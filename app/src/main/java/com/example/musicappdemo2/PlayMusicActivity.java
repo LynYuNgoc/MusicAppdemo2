@@ -228,4 +228,5 @@ public class PlayMusicActivity extends AppCompatActivity {
         }).start();
     }
     //@SuppressLint("Handler Leak") Handler handler = new Handler()
+
 }

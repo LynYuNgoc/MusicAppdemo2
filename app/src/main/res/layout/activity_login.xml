@@ -131,7 +131,7 @@
         app:layout_constraintStart_toStartOf="@+id/password" />
 
     <ProgressBar
-        android:id="@+id/signInProgress"
+        android:id="@+id/signInProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
