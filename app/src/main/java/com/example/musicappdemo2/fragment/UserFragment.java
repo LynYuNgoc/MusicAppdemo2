@@ -57,10 +57,14 @@ public class UserFragment extends Fragment {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if(item.getItemId() == R.id.logOut) {
-                    FirebaseAuth.getInstance().signOut();
-                    Intent intent=new Intent(getActivity(), LoginActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+//                    FirebaseAuth.getInstance().signOut();
+//                    Intent intent=new Intent(getActivity(), LoginActivity.class);
+//                    startActivity(intent);
+//                    getActivity().finish();
+
+                    showConfirmLogOut();
+
+
                 }
                 return false;
             }
@@ -89,46 +93,40 @@ public class UserFragment extends Fragment {
 
     }
 
-//    void showConfirmLogOut() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//        builder.setMessage("Bạn chắc chắn thoát?");
-//        builder.setCancelable(true);
-//        builder.setPositiveButton(
-//                "Thoát",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                        gotoLoginScreen();
-//                        getActivity().finish();
-//                    }
-//                });
-//
-//        builder.setNegativeButton(
-//                "Không",
-//                new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int id) {
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//        AlertDialog alert = builder.create();
-//        //2. now setup to change color of the button
-//        alert.setOnShowListener( new DialogInterface.OnShowListener() {
-//            @Override
-//            public void onShow(DialogInterface arg0) {
-//                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.app_main_bg, null));
-//                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.gray_light, null));
-//            }
-//        });
-//        alert.show();
-//    }
-//
-//    void gotoLoginScreen() {
-//        Intent i = new Intent(getActivity(), LoginActivity.class);
-//        startActivity(i);
-//        finish();
-//    }
-//
-//    private void finish() {
-//    }
+    void showConfirmLogOut() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Bạn chắc chắn thoát?");
+        builder.setCancelable(true);
+        builder.setPositiveButton(
+                "Thoát",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent=new Intent(getActivity(), LoginActivity.class);
+                        startActivity(intent);
+                        getActivity().finish();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "Không",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert = builder.create();
+        //2. now setup to change color of the button
+        alert.setOnShowListener( new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface arg0) {
+                alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.app_main_bg, null));
+                alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.gray_light, null));
+            }
+        });
+        alert.show();
+    }
+
 }

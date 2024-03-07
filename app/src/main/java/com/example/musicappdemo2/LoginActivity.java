@@ -27,12 +27,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private TextView dontHaveAnAccount;
     private TextView resetPassword;
-    private FrameLayout frameLayout;
-    private Drawable errorIcon;
+
+
     private EditText email;
     private EditText password;
     private Button signInButton;
-    private ProgressBar signInProgess;
+
 
 
 
@@ -43,12 +43,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
         resetPassword = findViewById(R.id.reset_password);
-        //frameLayout=findViewById(R.id.register_frame_layout);
         dontHaveAnAccount=findViewById(R.id.dont_have_an_account);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         signInButton = findViewById(R.id.signInButton);
-        signInProgess = findViewById(R.id.signInProgress);
 
         resetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
