@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +28,8 @@ import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private Toolbar myToolbar;
+
     BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         setupBottomMenu();
 
+        myToolbar = findViewById(R.id.materialToolbar);
+        setSupportActionBar(myToolbar);
 
 
         bottomNavigationView = findViewById(R.id.bottomnavigation);
@@ -67,7 +73,18 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
-
+    public void hideToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+    }
+    public void showToolbar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+        }
+    }
 
 
     void setFragment(Fragment fragment){

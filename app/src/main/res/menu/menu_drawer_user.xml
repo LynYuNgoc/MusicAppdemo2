@@ -7,7 +7,7 @@
         android:layout_height="match_parent" />
     <item
         android:id="@+id/logOut"
-        android:title="LogOut"
+        android:title=""
         android:icon="@drawable/logout"
         app:showAsAction="always"
         app:navigationIconTint="@color/white"/>

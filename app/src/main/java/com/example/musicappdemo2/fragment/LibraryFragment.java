@@ -25,7 +25,7 @@ public class LibraryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        homeActivity = (HomeActivity) getActivity();
+        homeActivity = (HomeActivity)getActivity();
         homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
 
     }
