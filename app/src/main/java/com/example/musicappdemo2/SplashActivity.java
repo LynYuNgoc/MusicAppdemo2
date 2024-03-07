@@ -30,7 +30,14 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                gotoLoginScreen();
+                if(currentUser != null){
+                    String str1 = currentUser.getEmail();
+                    String str2 = currentUser.getDisplayName();
+                    Uri str3 = currentUser.getPhotoUrl();
+                    gotoHomeScreen();
+                }else {
+                    gotoLoginScreen();
+                }
                 finish();
 
             }

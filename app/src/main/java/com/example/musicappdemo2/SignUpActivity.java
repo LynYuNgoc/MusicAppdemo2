@@ -85,8 +85,9 @@ public class SignUpActivity extends AppCompatActivity {
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w("FirebaseAuth", "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                                        Toast.makeText(SignUpActivity.this, "SignUp failed.",
                                                 Toast.LENGTH_SHORT).show();
+                                        gotoLoginActivity();
 
                                     }
                                 }
@@ -99,6 +100,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     void gotoHomeActivity(){
         Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    void gotoLoginActivity(){
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }

@@ -49,7 +49,7 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true); //menu
 
         homeActivity = (HomeActivity) getActivity();
-        homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
+//        homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
 
     }
 
@@ -90,7 +90,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        homeActivity.showToolbar(); // Hiển thị lại thanh toolbar khi Fragment bị hủy
+//        homeActivity.showToolbar(); // Hiển thị lại thanh toolbar khi Fragment bị hủy
     }
 
 
@@ -103,7 +103,6 @@ public class SearchFragment extends Fragment {
         searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        //searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setIconified(true);
         //searchView.setIconifiedByDefault(true);
 

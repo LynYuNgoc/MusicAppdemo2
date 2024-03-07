@@ -26,7 +26,7 @@ public class LibraryFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         homeActivity = (HomeActivity)getActivity();
-        homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
+//        homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
 
     }
 
@@ -41,6 +41,6 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        homeActivity.showToolbar(); // Hiển thị lại thanh toolbar khi Fragment bị hủy
+//        homeActivity.showToolbar(); // Hiển thị lại thanh toolbar khi Fragment bị hủy
     }
 }
