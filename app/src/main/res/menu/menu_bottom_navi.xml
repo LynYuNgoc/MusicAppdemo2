@@ -18,9 +18,8 @@
         android:id="@+id/mnBottomLibrary"
         android:icon="@drawable/playlist_icon"
         android:title="Thư Viện"
-        app:showAsAction="always"
 
-        />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/mnBottomUser"

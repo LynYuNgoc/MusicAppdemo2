@@ -12,17 +12,18 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/dark_background"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textViewCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
                 android:layout_weight="1"
                 android:text="Thể Loại"
                 android:textColor="@color/white"
-                android:textSize="30dp"
-                android:layout_marginLeft="16dp"/>
+                android:textSize="30dp" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutHorizontalCategory"
@@ -36,12 +37,12 @@
                 android:id="@+id/textViewArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
                 android:layout_weight="1"
                 android:text="Nghệ Sĩ"
                 android:textColor="@color/white"
-                android:textSize="30dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="16dp"/>
+                android:textSize="30dp" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutHorizontalArtist"
@@ -55,12 +56,12 @@
                 android:id="@+id/textViewAlbumHot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
                 android:layout_weight="1"
                 android:text="Album Hot"
                 android:textColor="@color/white"
-                android:textSize="30dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="16dp"/>
+                android:textSize="30dp" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutHorizontalAlbumHot"
@@ -74,12 +75,12 @@
                 android:id="@+id/textViewChill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="30dp"
                 android:layout_weight="1"
                 android:text="Chill"
                 android:textColor="@color/white"
-                android:textSize="30dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginLeft="16dp"/>
+                android:textSize="30dp" />
 
             <FrameLayout
                 android:id="@+id/frameLayoutHorizontalChill"

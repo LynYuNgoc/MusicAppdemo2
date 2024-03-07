@@ -1,5 +1,7 @@
 package com.example.musicappdemo2;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,6 +18,11 @@ import com.example.musicappdemo2.fragment.SearchFragment;
 import com.example.musicappdemo2.fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -25,6 +32,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         setupBottomMenu();
+
 
 
         bottomNavigationView = findViewById(R.id.bottomnavigation);
@@ -59,6 +67,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     void setFragment(Fragment fragment){
         if(fragment==null){

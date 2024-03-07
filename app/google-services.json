@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "815846864751",
+    "project_id": "signin-signup-firebase-65815",
+    "storage_bucket": "signin-signup-firebase-65815.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:815846864751:android:7ce5fb7438edf8ecc79a9a",
+        "android_client_info": {
+          "package_name": "com.example.musicappdemo2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAU5ESVKT_0J9wsMnO4YX7YphwJTKMGGLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
