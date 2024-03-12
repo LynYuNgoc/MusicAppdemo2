@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.example.musicappdemo2.classes.AlbumItem;
+import com.example.musicappdemo2.classes.SongItem;
+import com.example.musicappdemo2.classes.Utils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -44,6 +47,12 @@ public class PlayMusicActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         mSeekBarTime = findViewById(R.id.seekBarTime);
         mSeekBarVol = findViewById(R.id.seekBarVol);
+
+        Intent intent = getIntent();
+        SongItem item = intent.getParcelableExtra("SONG_ITEM_EXTRA_KEY_NAME");
+        songTitle.setText(item.getNameSong());
+        imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
+
 
         toolbarBack = findViewById(R.id.toolbarBackListSong);
         setSupportActionBar(toolbarBack);

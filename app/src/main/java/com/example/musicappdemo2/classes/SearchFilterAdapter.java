@@ -20,16 +20,18 @@ import java.util.List;
 public class SearchFilterAdapter extends RecyclerView.Adapter implements Filterable {
 
 
-    List<SearchFilterItem> searchFilterItems;
-    List<SearchFilterItem> searchFilterItemsOld;
+    List<SongItem> searchFilterItems;
+    List<SongItem> searchFilterItemsOld;
 
-    public SearchFilterAdapter(List<SearchFilterItem> searchFilterItems, Context context) {
+    public SearchFilterAdapter(List<SongItem> searchFilterItems, Context context, ListSongOnClickListener listSongOnClickListener ) {
         this.searchFilterItems = searchFilterItems;
         this.searchFilterItemsOld = searchFilterItems;
         this.context = context;
+        this.listSongOnClickListener = listSongOnClickListener;
     }
 
     Context context;
+    ListSongOnClickListener listSongOnClickListener;
 
     @NonNull
     @Override
@@ -45,7 +47,7 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        SearchFilterItem searchItem = searchFilterItems.get(position);
+        SongItem searchItem = searchFilterItems.get(position);
 
         if (searchItem == null){
             return;
@@ -55,6 +57,7 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
         searchFilterViewHolder.textViewSingerName.setText(searchItem.getNameSinger());
 
         searchFilterViewHolder.imageViewSong.setImageBitmap(Utils.loadBitmapFromAssets(context, searchItem.getAvatar(), "default_album_avatar"));
+        searchFilterViewHolder.itemView.setOnClickListener(v -> listSongOnClickListener.onClickAtItem(position));
 
     }
 
@@ -78,9 +81,9 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
                     searchFilterItems = searchFilterItemsOld;
                 }
                 else {
-                    List<SearchFilterItem> list = new ArrayList<>();
+                    List<SongItem> list = new ArrayList<>();
 
-                    for (SearchFilterItem searchFilterItem: searchFilterItemsOld){
+                    for (SongItem searchFilterItem: searchFilterItemsOld){
                         if (searchFilterItem.getNameSong().toLowerCase().contains(strSearch.toLowerCase())){
                             list.add(searchFilterItem);
 
@@ -98,7 +101,7 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
-                searchFilterItems = (List<SearchFilterItem>) results.values;
+                searchFilterItems = (List<SongItem>) results.values;
                 notifyDataSetChanged();
             }
         };
@@ -114,9 +117,15 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
         public SearchFilterViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageViewSong = itemView.findViewById(R.id.imageViewSearchAvatarSong);
+            imageViewSong = itemView.findViewById(R.id.imageViewAvatarAddSongLibrary);
             textViewSongName = itemView.findViewById(R.id.textViewSearchSongName);
             textViewSingerName = itemView.findViewById(R.id.textViewSearchSingerName);
         }
+    }
+
+
+
+    public  interface ListSongOnClickListener{
+        void onClickAtItem(int position);
     }
 }

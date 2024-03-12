@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/user_name"
+                android:layout_marginTop="10dp"
                 android:textColor="@color/white" />
 
             <TextView
@@ -36,6 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/Email"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -58,6 +60,11 @@
             app:itemTextColor="@color/bottom_navigation_color"
             app:labelVisibilityMode="labeled"
 
-            app:menu="@menu/menu_drawer_user" />
+            app:menu="@menu/menu_drawer_user" >
+
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
     </LinearLayout>
+
+
 </FrameLayout>

@@ -9,26 +9,55 @@ public class SongItem implements Parcelable {
 
     String idSong;
     String nameSong;
-
-    String idSinger;
     String nameSinger;
-
+    String idAlbum;
     String avatar;
+    Integer favorite;           //1 true; 0 false
+    String songMp3;
 
-    public SongItem(String idSong, String nameSong, String idSinger, String nameSinger, String avatar) {
+    public SongItem(String idSong, String nameSong, String nameSinger, String idAlbum, String avatar, Integer favorite, String songMp3) {
         this.idSong = idSong;
         this.nameSong = nameSong;
-        this.idSinger = idSinger;
         this.nameSinger = nameSinger;
+        this.idAlbum = idAlbum;
         this.avatar = avatar;
+        this.favorite = favorite;
+        this.songMp3 = songMp3;
     }
 
     protected SongItem(Parcel in) {
         idSong = in.readString();
         nameSong = in.readString();
-        idSinger = in.readString();
         nameSinger = in.readString();
+        idAlbum = in.readString();
         avatar = in.readString();
+        if (in.readByte() == 0) {
+            favorite = null;
+        } else {
+            favorite = in.readInt();
+        }
+        songMp3 = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idSong);
+        dest.writeString(nameSong);
+        dest.writeString(nameSinger);
+        dest.writeString(idAlbum);
+        dest.writeString(avatar);
+        if (favorite == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(favorite);
+        }
+        dest.writeString(songMp3);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<SongItem> CREATOR = new Creator<SongItem>() {
@@ -59,20 +88,20 @@ public class SongItem implements Parcelable {
         this.nameSong = nameSong;
     }
 
-    public String getIdSinger() {
-        return idSinger;
-    }
-
-    public void setIdSinger(String idSinger) {
-        this.idSinger = idSinger;
-    }
-
     public String getNameSinger() {
         return nameSinger;
     }
 
     public void setNameSinger(String nameSinger) {
         this.nameSinger = nameSinger;
+    }
+
+    public String getIdAlbum() {
+        return idAlbum;
+    }
+
+    public void setIdAlbum(String idAlbum) {
+        this.idAlbum = idAlbum;
     }
 
     public String getAvatar() {
@@ -83,17 +112,35 @@ public class SongItem implements Parcelable {
         this.avatar = avatar;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public Integer getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(Integer favorite) {
+        this.favorite = favorite;
+    }
+
+    public String getSongMp3() {
+        return songMp3;
+    }
+
+    public void setSongMp3(String songMp3) {
+        this.songMp3 = songMp3;
+    }
+
+    public SongItem() {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(idSong);
-        dest.writeString(nameSong);
-        dest.writeString(idSinger);
-        dest.writeString(nameSinger);
-        dest.writeString(avatar);
+    public String toString() {
+        return "SongItem{" +
+                "idSong='" + idSong + '\'' +
+                ", nameSong='" + nameSong + '\'' +
+                ", nameSinger='" + nameSinger + '\'' +
+                ", idAlbum='" + idAlbum + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", favorite=" + favorite +
+                ", songMp3='" + songMp3 + '\'' +
+                '}';
     }
 }

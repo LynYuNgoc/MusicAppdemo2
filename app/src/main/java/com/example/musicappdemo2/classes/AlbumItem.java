@@ -5,26 +5,44 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 public class AlbumItem implements Parcelable{
 
     String id;
     String name;
-
     String avatar;
-    String info;
 
-    public AlbumItem(String id, String name, String avatar, String info) {
+
+    public AlbumItem() {
+    }
+
+    public AlbumItem(String id, String name, String avatar) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
-        this.info = info;
     }
+
 
     protected AlbumItem(Parcel in) {
         id = in.readString();
         name = in.readString();
         avatar = in.readString();
-        info = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(avatar);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<AlbumItem> CREATOR = new Creator<AlbumItem>() {
@@ -63,25 +81,24 @@ public class AlbumItem implements Parcelable{
         this.avatar = avatar;
     }
 
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-
     @Override
-    public int describeContents() {
-        return 0;
+    public String toString() {
+        return "AlbumItem{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", avatar='" + avatar + '\'' +
+                '}';
     }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(name);
-        dest.writeString(avatar);
-        dest.writeString(info);
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("name", name);
+        result.put("avatar", avatar);
+
+
+        return result;
     }
+
+
 }

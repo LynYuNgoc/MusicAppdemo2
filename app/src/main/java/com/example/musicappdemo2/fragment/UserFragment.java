@@ -34,6 +34,8 @@ public class UserFragment extends Fragment {
     BottomNavigationView bottomNavigationView;
     private HomeActivity homeActivity;
 
+    Button btnAlbumMng;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class UserFragment extends Fragment {
                 return false;
             }
         });
+
 
 
         return view;

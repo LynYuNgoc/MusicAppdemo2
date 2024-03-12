@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.musicappdemo2.widget.MainActivity;
+import com.example.musicappdemo2.widget.MainActivity2;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
                     String str2 = currentUser.getDisplayName();
                     Uri str3 = currentUser.getPhotoUrl();
                     gotoHomeScreen();
+                    //gotoMainScreen();
                 }else {
                     gotoLoginScreen();
                 }
@@ -70,6 +73,11 @@ public class SplashActivity extends AppCompatActivity {
 
     void gotoHomeScreen() {
         Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+        startActivity(i);
+    }
+
+    void gotoMainScreen() {
+        Intent i = new Intent(SplashActivity.this, MainActivity2.class);
         startActivity(i);
     }
 }

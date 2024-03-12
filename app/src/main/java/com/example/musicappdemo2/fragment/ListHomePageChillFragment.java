@@ -3,6 +3,7 @@ package com.example.musicappdemo2.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,12 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumCategoryAdapter;
 import com.example.musicappdemo2.classes.AlbumChillAdapter;
 import com.example.musicappdemo2.classes.AlbumItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -27,6 +34,7 @@ import java.util.ArrayList;
 public class ListHomePageChillFragment extends Fragment implements AlbumChillAdapter.AlbumChillOnClickListener{
 
     ArrayList<AlbumItem> albumItems;
+    AlbumChillAdapter albumChillAdapter;
     RecyclerView recyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -67,7 +75,8 @@ public class ListHomePageChillFragment extends Fragment implements AlbumChillAda
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        initSampleData();
+//        initSampleData();
+        getListAlbumFromRealTimeDatabase();
     }
 
     @Override
@@ -76,25 +85,55 @@ public class ListHomePageChillFragment extends Fragment implements AlbumChillAda
 
         View view = inflater.inflate(R.layout.fragment_list_home_page_chill, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewChill);
-        AlbumChillAdapter albumChillAdapter = new AlbumChillAdapter(albumItems,getContext(), this);
+
+        albumItems = new ArrayList<>();
+        albumChillAdapter = new AlbumChillAdapter(albumItems,getContext(), this);
         recyclerView.setAdapter(albumChillAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
 
         return view;
     }
 
-    void initSampleData() {
-        albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album015","Jazz", "jazz.jpg", "Jazz"));
-        albumItems.add(new AlbumItem("album016","Acoustic", "Acoustic.jpg", "Acoustic"));
-        albumItems.add(new AlbumItem("album017","Piano", "piano.jpg", "Piano"));
-        albumItems.add(new AlbumItem("album018","Lofi", "lofibeats.jpg", "Lofi"));
-    }
+//    void initSampleData() {
+//        albumItems = new ArrayList<AlbumItem>();
+//        albumItems.add(new AlbumItem("album015","Jazz", "jazz.jpg", "Jazz"));
+//        albumItems.add(new AlbumItem("album016","Acoustic", "Acoustic.jpg", "Acoustic"));
+//        albumItems.add(new AlbumItem("album017","Piano", "piano.jpg", "Piano"));
+//        albumItems.add(new AlbumItem("album018","Lofi", "lofibeats.jpg", "Lofi"));
+//    }
 
     @Override
     public void onClickAtItem(int position) {
         Intent i = new Intent(getActivity(), AlbumSongActivity.class);
         i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME",albumItems.get(position));
         startActivity(i);
+    }
+
+    private void getListAlbumFromRealTimeDatabase() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Chill");
+
+
+        //Cach 1: add all list vao recyclerview
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                albumItems.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    AlbumItem albumItem = dataSnapshot.getValue(AlbumItem.class);
+                    albumItems.add(albumItem);
+
+
+                }
+                albumChillAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Add List Album failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

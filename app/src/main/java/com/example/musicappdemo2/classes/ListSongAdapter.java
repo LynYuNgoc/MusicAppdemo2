@@ -18,19 +18,23 @@ public class ListSongAdapter extends RecyclerView.Adapter{
 
     ArrayList<SongItem> songItems;
 
-    public ListSongAdapter(ArrayList<SongItem> songItems, Context context) {
+    public ListSongAdapter(ArrayList<SongItem> songItems, Context context, ListSongOnClickListener listSongOnClickListener) {
         this.songItems = songItems;
         this.context = context;
+        this.listSongOnClickListener = listSongOnClickListener;
     }
 
     Context context;
+    ListSongOnClickListener listSongOnClickListener;
+
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_layout_list_song, parent, false);
-        ListSongAdapter.ListSongViewHolder viewHolder = new ListSongAdapter.ListSongViewHolder(view);
+        ListSongViewHolder viewHolder = new ListSongViewHolder(view);
 
         return viewHolder;
 
@@ -47,12 +51,17 @@ public class ListSongAdapter extends RecyclerView.Adapter{
 
         //avatar
         listSongViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
-
+        listSongViewHolder.itemView.setOnClickListener(v -> listSongOnClickListener.onClickAtItem(position));
     }
 
     @Override
     public int getItemCount() {
-        return songItems.size();
+
+        if (songItems != null){
+            return songItems.size();
+        }
+
+        return 0;
     }
 
     class ListSongViewHolder extends RecyclerView.ViewHolder {
@@ -68,5 +77,9 @@ public class ListSongAdapter extends RecyclerView.Adapter{
             textViewSongName = itemView.findViewById(R.id.textViewSongName);
             textViewSingerName = itemView.findViewById(R.id.textViewSingerName);
         }
+    }
+
+    public  interface ListSongOnClickListener{
+        void onClickAtItem(int position);
     }
 }

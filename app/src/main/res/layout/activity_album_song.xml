@@ -52,6 +52,8 @@
             android:layout_marginBottom="30dp"
             android:text="Phát Bài Hát " />
 
+
+
         <FrameLayout
             android:id="@+id/frameLayoutAlbumSong"
             android:layout_width="match_parent"

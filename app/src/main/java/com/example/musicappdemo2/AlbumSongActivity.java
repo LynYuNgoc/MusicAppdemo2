@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.musicappdemo2.classes.AlbumItem;
 import com.example.musicappdemo2.classes.Utils;
 import com.example.musicappdemo2.fragment.ListSongFragment;
+import com.example.musicappdemo2.widget.MainActivity;
 
 public class AlbumSongActivity extends AppCompatActivity {
     TextView textViewName;
@@ -37,8 +38,11 @@ public class AlbumSongActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         AlbumItem item = intent.getParcelableExtra("ALBUM_ITEM_EXTRA_KEY_NAME");
+
         textViewName.setText(item.getName());
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
+
+
 
         btPlayMusic = findViewById(R.id.buttonPlaySong);
         btPlayMusic.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +52,8 @@ public class AlbumSongActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+
     }
 
     void setupBottomMenu() {

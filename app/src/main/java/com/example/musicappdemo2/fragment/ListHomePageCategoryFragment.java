@@ -3,6 +3,8 @@ package com.example.musicappdemo2.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,13 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumCategoryAdapter;
 import com.example.musicappdemo2.classes.AlbumItem;
+import com.example.musicappdemo2.widget.MainActivity;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +38,11 @@ public class ListHomePageCategoryFragment extends Fragment implements AlbumCateg
 
     ArrayList<AlbumItem> albumItems;
     RecyclerView recyclerView;
+
+    AlbumCategoryAdapter albumCategoryAdapter;
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,7 +82,8 @@ public class ListHomePageCategoryFragment extends Fragment implements AlbumCateg
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        initSampleData();
+//        initSampleData();
+        getListAlbumFromRealTimeDatabase();
     }
 
     @Override
@@ -75,21 +92,26 @@ public class ListHomePageCategoryFragment extends Fragment implements AlbumCateg
 
         View view = inflater.inflate(R.layout.fragment_list_home_page_category, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewCategory);
-        AlbumCategoryAdapter albumCategoryAdapter = new AlbumCategoryAdapter(albumItems,getContext(), this);
+
+
+        albumItems = new ArrayList<>();
+        albumCategoryAdapter = new AlbumCategoryAdapter(albumItems,getContext(), this);
         recyclerView.setAdapter(albumCategoryAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
+
+
 
         return view;
     }
 
-    void initSampleData() {
-        albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album001","Nhạc Việt", "nhac_viet.jpg", "Nhac Viet"));
-        albumItems.add(new AlbumItem("album002","Nhạc Hàn", "nhac_han.jpg", "Nhac Han"));
-        albumItems.add(new AlbumItem("album003","Nhạc Trung", "nhac_trung.jpg", "Nhac Trung"));
-        albumItems.add(new AlbumItem("album004","Nhạc Âu Mỹ", "nhac_au_my.jpg", "Nhac Au My"));
-        albumItems.add(new AlbumItem("album005","Nhạc Nhật", "nhac_nhat.jpg", "Nhac Nhat"));
-    }
+//    void initSampleData() {
+//        albumItems = new ArrayList<AlbumItem>();
+//        albumItems.add(new AlbumItem("album001","Nhạc Việt", "nhac_viet.jpg", "Nhac Viet"));
+//        albumItems.add(new AlbumItem("album002","Nhạc Hàn", "nhac_han.jpg", "Nhac Han"));
+//        albumItems.add(new AlbumItem("album003","Nhạc Trung", "nhac_trung.jpg", "Nhac Trung"));
+//        albumItems.add(new AlbumItem("album004","Nhạc Âu Mỹ", "nhac_au_my.jpg", "Nhac Au My"));
+//        albumItems.add(new AlbumItem("album005","Nhạc Nhật", "nhac_nhat.jpg", "Nhac Nhat"));
+//    }
 
     @Override
     public void onClickAtItem(int position) {
@@ -97,5 +119,69 @@ public class ListHomePageCategoryFragment extends Fragment implements AlbumCateg
         i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME",albumItems.get(position));
         startActivity(i);
 
+    }
+
+    private void getListAlbumFromRealTimeDatabase(){
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("TheLoai");
+
+
+
+        //Cach 1: add all list vao recyclerview
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                albumItems.clear();
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+
+                    AlbumItem albumItem = dataSnapshot.getValue(AlbumItem.class);
+                    albumItems.add(albumItem);
+
+
+                }
+                albumCategoryAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Add List Album failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //Cach 2:
+//        myRef.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                AlbumItem item = snapshot.getValue(AlbumItem.class);
+//
+//                if (item != null){
+//                    albumItems.add(item);
+//                    albumCategoryAdapter.notifyDataSetChanged();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 }

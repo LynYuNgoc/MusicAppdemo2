@@ -3,6 +3,7 @@ package com.example.musicappdemo2.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,12 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumArtistAdapter;
 import com.example.musicappdemo2.classes.AlbumCategoryAdapter;
 import com.example.musicappdemo2.classes.AlbumItem;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,9 +31,10 @@ import java.util.ArrayList;
  * Use the {@link ListHomePageArtistFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListHomePageArtistFragment extends Fragment implements AlbumArtistAdapter.AlbumArtistOnClickListener{
+public class ListHomePageArtistFragment extends Fragment implements AlbumArtistAdapter.AlbumArtistOnClickListener {
 
     ArrayList<AlbumItem> albumItems;
+    AlbumArtistAdapter albumArtistAdapter;
     RecyclerView recyclerView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,7 +74,8 @@ public class ListHomePageArtistFragment extends Fragment implements AlbumArtistA
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        initSampleData();
+//        initSampleData();
+        getListAlbumFromRealTimeDatabase();
     }
 
     @Override
@@ -75,26 +84,56 @@ public class ListHomePageArtistFragment extends Fragment implements AlbumArtistA
 
         View view = inflater.inflate(R.layout.fragment_list_home_page_artist, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewArtist);
-        AlbumArtistAdapter albumArtistAdapter = new AlbumArtistAdapter(albumItems,getContext(), this);
+
+        albumItems = new ArrayList<>();
+        albumArtistAdapter = new AlbumArtistAdapter(albumItems, getContext(), this);
         recyclerView.setAdapter(albumArtistAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         return view;
     }
 
-    void initSampleData() {
-        albumItems = new ArrayList<AlbumItem>();
-        albumItems.add(new AlbumItem("album006","Sơn Tùng M-TP", "sontung1.jpg", "Sơn Tùng M-TP"));
-        albumItems.add(new AlbumItem("album007","Hoà Minzy", "hoa_minzy.jpg", "Hoa Minzy"));
-        albumItems.add(new AlbumItem("album008","Taylor Swift", "taylor.jpg", "Taylor Swift"));
-        albumItems.add(new AlbumItem("album009","IU", "iu.jpg", "IU"));
-        albumItems.add(new AlbumItem("album010","BTS", "bts1.jpg", "BTS"));
-    }
+//    void initSampleData() {
+//        albumItems = new ArrayList<AlbumItem>();
+//        albumItems.add(new AlbumItem("album006","Sơn Tùng M-TP", "sontung1.jpg"));
+//        albumItems.add(new AlbumItem("album007","Hoà Minzy", "hoa_minzy.jpg"));
+//        albumItems.add(new AlbumItem("album008","Taylor Swift", "taylor.jpg"));
+//        albumItems.add(new AlbumItem("album009","IU", "iu.jpg"));
+//        albumItems.add(new AlbumItem("album010","BTS", "bts1.jpg"));
+//    }
 
     @Override
     public void onClickAtItem(int position) {
         Intent i = new Intent(getActivity(), AlbumSongActivity.class);
-        i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME",albumItems.get(position));
+        i.putExtra("ALBUM_ITEM_EXTRA_KEY_NAME", albumItems.get(position));
         startActivity(i);
+    }
+
+    private void getListAlbumFromRealTimeDatabase() {
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("NgheSi");
+
+
+        //Cach 1: add all list vao recyclerview
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                albumItems.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+
+                    AlbumItem albumItem = dataSnapshot.getValue(AlbumItem.class);
+                    albumItems.add(albumItem);
+
+
+                }
+                albumArtistAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Add List Album failed", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
