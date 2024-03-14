@@ -22,11 +22,13 @@ public class AlbumSongActivity extends AppCompatActivity {
     ImageView imageView;
     Toolbar toolbar;
     Button btPlayMusic;
+
+    AlbumItem item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_song);
-        setupBottomMenu();
+
 
         toolbar = findViewById(R.id.materialToolbarAlbumSong);
         setSupportActionBar(toolbar);
@@ -37,8 +39,8 @@ public class AlbumSongActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        AlbumItem item = intent.getParcelableExtra("ALBUM_ITEM_EXTRA_KEY_NAME");
-
+        item = intent.getParcelableExtra("ALBUM_ITEM_EXTRA_KEY_NAME");
+        setupBottomMenu();
         textViewName.setText(item.getName());
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
 
@@ -57,8 +59,7 @@ public class AlbumSongActivity extends AppCompatActivity {
     }
 
     void setupBottomMenu() {
-        setFragment(new ListSongFragment());
-
+        setFragment(new ListSongFragment(item.getId()));
     }
 
     void setFragment(Fragment newFragment) {

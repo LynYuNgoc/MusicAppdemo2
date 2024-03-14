@@ -20,10 +20,10 @@ import java.util.List;
 public class SearchFilterAdapter extends RecyclerView.Adapter implements Filterable {
 
 
-    List<SongItem> searchFilterItems;
-    List<SongItem> searchFilterItemsOld;
+    ArrayList<SongItem> searchFilterItems;
+    ArrayList<SongItem> searchFilterItemsOld;
 
-    public SearchFilterAdapter(List<SongItem> searchFilterItems, Context context, ListSongOnClickListener listSongOnClickListener ) {
+    public SearchFilterAdapter(ArrayList<SongItem> searchFilterItems, Context context, ListSongOnClickListener listSongOnClickListener ) {
         this.searchFilterItems = searchFilterItems;
         this.searchFilterItemsOld = searchFilterItems;
         this.context = context;
@@ -81,7 +81,7 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
                     searchFilterItems = searchFilterItemsOld;
                 }
                 else {
-                    List<SongItem> list = new ArrayList<>();
+                    ArrayList<SongItem> list = new ArrayList<>();
 
                     for (SongItem searchFilterItem: searchFilterItemsOld){
                         if (searchFilterItem.getNameSong().toLowerCase().contains(strSearch.toLowerCase())){
@@ -101,7 +101,7 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
-                searchFilterItems = (List<SongItem>) results.values;
+                searchFilterItems = (ArrayList<SongItem>) results.values;
                 notifyDataSetChanged();
             }
         };

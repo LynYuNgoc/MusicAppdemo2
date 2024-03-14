@@ -77,7 +77,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     void gotoMainScreen() {
-        Intent i = new Intent(SplashActivity.this, MainActivity2.class);
+        Intent i = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(i);
     }
 }

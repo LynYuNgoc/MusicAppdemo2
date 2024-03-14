@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SongItem implements Parcelable {
 
     String idSong;
@@ -14,6 +17,8 @@ public class SongItem implements Parcelable {
     String avatar;
     Integer favorite;           //1 true; 0 false
     String songMp3;
+
+
 
     public SongItem(String idSong, String nameSong, String nameSinger, String idAlbum, String avatar, Integer favorite, String songMp3) {
         this.idSong = idSong;
@@ -142,5 +147,20 @@ public class SongItem implements Parcelable {
                 ", favorite=" + favorite +
                 ", songMp3='" + songMp3 + '\'' +
                 '}';
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+
+        result.put("idSong", idSong);
+        result.put("nameSong", nameSong);
+        result.put("nameSinger", nameSinger);
+        result.put("idAlbum", idAlbum);
+        result.put("avatar", avatar);
+        result.put("favorite", favorite);
+        result.put("songMp3", songMp3);
+
+
+        return result;
     }
 }

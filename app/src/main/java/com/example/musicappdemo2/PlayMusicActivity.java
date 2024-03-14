@@ -1,7 +1,9 @@
 package com.example.musicappdemo2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +11,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,14 +19,24 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.musicappdemo2.classes.AlbumItem;
+import com.example.musicappdemo2.classes.ListSongAdapter;
 import com.example.musicappdemo2.classes.SongItem;
 import com.example.musicappdemo2.classes.Utils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PlayMusicActivity extends AppCompatActivity {
 
+    String songMp3;
+
+    SongItem item;
     Toolbar toolbarBack;
     ImageView play, prev, next, imageView;
     TextView songTitle;
@@ -49,10 +62,13 @@ public class PlayMusicActivity extends AppCompatActivity {
         mSeekBarVol = findViewById(R.id.seekBarVol);
 
         Intent intent = getIntent();
-        SongItem item = intent.getParcelableExtra("SONG_ITEM_EXTRA_KEY_NAME");
+        item = intent.getParcelableExtra("SONG_ITEM_EXTRA_KEY_NAME");
+
+
         songTitle.setText(item.getNameSong());
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
 
+        songMp3 = item.getSongMp3();
 
         toolbarBack = findViewById(R.id.toolbarBackListSong);
         setSupportActionBar(toolbarBack);
@@ -69,12 +85,20 @@ public class PlayMusicActivity extends AppCompatActivity {
         //creating an ArrayList to store songs
         final ArrayList<Integer> songs = new ArrayList<>();
 
-        songs.add(0,R.raw.sound1);
-        songs.add(1,R.raw.sound2);
-        songs.add(2,R.raw.sound3);
-        songs.add(3,R.raw.sound4);
+        songs.add(0,R.raw.battinhyeulen);
+        songs.add(1,R.raw.roibo);
+        songs.add(2,R.raw.noinaycoanh);
+        songs.add(3,R.raw.chacaidoseve);
         songs.add(4,R.raw.tungcautungchu);
         songs.add(5,R.raw.chodoicodangso);
+
+
+
+
+
+
+
+
 
         //intializing Mediaplayer
         mMediaPlayer = MediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
@@ -165,12 +189,12 @@ public class PlayMusicActivity extends AppCompatActivity {
 
     private void SongNames(){
         if(currentIndex == 0){
-            songTitle.setText("Anh Mo - Hoang Dung");
-            imageView.setImageResource(R.drawable.anhmo);
+            songTitle.setText("Bật Tình Yêu Lên");
+            imageView.setImageResource(R.drawable.hoa_minzy);
         }
         if(currentIndex == 1){
-            songTitle.setText("Tan Bien - Quan AP");
-            imageView.setImageResource(R.drawable.tanbien);
+            songTitle.setText("Rời Bỏ");
+            imageView.setImageResource(R.drawable.hoa_minzy);
         }
         if(currentIndex == 2){
             songTitle.setText("Lover - Nhac Trung");

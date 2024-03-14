@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,17 +27,28 @@ import android.view.ViewGroup;
 import com.example.musicappdemo2.HomeActivity;
 import com.example.musicappdemo2.PlayMusicActivity;
 import com.example.musicappdemo2.R;
+import com.example.musicappdemo2.classes.AlbumItem;
 import com.example.musicappdemo2.classes.SearchFilterAdapter;
 import com.example.musicappdemo2.classes.SearchFilterItem;
 import com.example.musicappdemo2.classes.SongItem;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class SearchFragment extends Fragment implements SearchFilterAdapter.ListSongOnClickListener{
@@ -46,7 +58,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
     Toolbar toolbar;
     SearchFilterAdapter searchFilterAdapter;
     RecyclerView recyclerView;
-    List<SongItem> searchFilterItems;
+    ArrayList<SongItem> searchFilterItems;
     private HomeActivity homeActivity;
 
     @Override
@@ -58,9 +70,8 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
         homeActivity = (HomeActivity) getActivity();
         //homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
         //onDestroy();
-//        initSampleData();
-        getListSongFromRealTimeDatabase();
-
+//        getListSongFromRealTimeDatabase();
+        getListAlbumFromFireStore();
     }
 
     @Override
@@ -83,20 +94,6 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
         return view;
     }
 
-    //    void initSampleData() {
-//        searchFilterItems = new ArrayList<SearchFilterItem>();
-//        searchFilterItems.add(new SearchFilterItem("id 072019","id 072019", "singer001.jpg", "W/N", "song1.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song002","Chúng ta rồi sẽ hạnh phúc", "singer001.jpg", "singer001", "song2.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song003","Có hẹn với thanh xuân", "singer001.jpg", "singer001", "song3.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song004","Một Bước Yêu Vạn Dặm Đau", "singer001.jpg", "singer001", "song4.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song005","song005", "singer001.jpg", "singer001", "song05.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song006","song006", "singer001.jpg", "singer001", "song06.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song007","song007", "singer001.jpg", "singer001", "song07.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song008","song008", "singer001.jpg", "singer001", "song08.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song009","song009", "singer001.jpg", "singer001", "song09.jpg"));
-//        searchFilterItems.add(new SearchFilterItem("song010","song010", "singer001.jpg", "singer001", "song10.jpg"));
-//
-//    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -135,7 +132,91 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
 
     }
 
+    @Override
+    public void onClickAtItem(int position) {
+        Intent intent = new Intent(getActivity(), PlayMusicActivity.class);
+        intent.putExtra("SONG_ITEM_EXTRA_KEY_NAME",searchFilterItems.get(position));
 
+        startActivity(intent);
+    }
+
+
+
+
+
+
+
+    private void getListAlbumFromFireStore(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Songs")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String,Object> dataItem = document.getData();
+                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
+                                String nameSong = "";
+                                String idSong = "";
+                                String nameSinger = "";
+                                String avatar = "";
+                                Integer favorite = 0;
+                                String idAlbum = "";
+                                String songMp3 ="";
+
+
+                                if (dataItem.get("nameSong") != null) {
+                                    nameSong = dataItem.get("nameSong").toString();
+                                }
+                                if (dataItem.get("idSong") != null) {
+                                    idSong = dataItem.get("idSong").toString();
+                                }
+                                if (dataItem.get("nameSinger") != null) {
+                                    nameSinger = dataItem.get("nameSinger").toString();
+                                }
+                                if (dataItem.get("avatar") != null) {
+                                    avatar = dataItem.get("avatar").toString();
+                                }
+                                if (dataItem.get("favorite") != null) {
+//                                    favorite = (Integer) dataItem.get("favorite");
+                                }
+                                if (dataItem.get("idAlbum") != null) {
+                                    idAlbum = dataItem.get("idAlbum").toString();
+                                }
+                                if (dataItem.get("songMp3") != null) {
+                                    songMp3 = dataItem.get("songMp3").toString();
+                                }
+
+
+
+                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,0,songMp3);
+                                searchFilterItems.add(item);
+                            }
+                            searchFilterAdapter.notifyDataSetChanged();
+                        } else {
+                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //RealTimeDatabase
     private void getListSongFromRealTimeDatabase() {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -175,15 +256,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
             }
         });
 
-
     }
 
 
-    @Override
-    public void onClickAtItem(int position) {
-        Intent intent = new Intent(getActivity(), PlayMusicActivity.class);
-        intent.putExtra("SONG_ITEM_EXTRA_KEY_NAME",searchFilterItems.get(position));
-
-        startActivity(intent);
-    }
 }
