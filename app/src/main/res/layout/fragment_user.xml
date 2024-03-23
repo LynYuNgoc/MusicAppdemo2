@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="282dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:orientation="vertical">
@@ -22,34 +22,34 @@
                 android:id="@+id/imageView2"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
-                android:src="@drawable/chill" />
+                android:src="@drawable/ic_avatar_default" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/user_name"
                 android:layout_marginTop="10dp"
+                android:text="@string/user_name"
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tv_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Email"
                 android:layout_marginTop="5dp"
+                android:text="@string/Email"
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbarLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/dark_background"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:menu="@menu/menu_drawer_user" />
+<!--        <com.google.android.material.appbar.MaterialToolbar-->
+<!--            android:id="@+id/toolbarLogout"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/dark_background"-->
+<!--            android:minHeight="?attr/actionBarSize"-->
+<!--            android:theme="?attr/actionBarTheme"-->
+<!--            app:menu="@menu/menu_drawer_user" />-->
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navi"
@@ -60,7 +60,7 @@
             app:itemTextColor="@color/bottom_navigation_color"
             app:labelVisibilityMode="labeled"
 
-            app:menu="@menu/menu_drawer_user" >
+            app:menu="@menu/menu_drawer_user">
 
         </com.google.android.material.bottomnavigation.BottomNavigationView>
 

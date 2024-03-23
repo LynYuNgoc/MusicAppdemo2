@@ -1,16 +1,24 @@
 package com.example.musicappdemo2;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +30,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -35,30 +47,35 @@ public class SignUpActivity extends AppCompatActivity {
     private Drawable errorIcon;
 
     private EditText username;
-    private  EditText email;
+    private EditText email;
     private EditText password;
     private EditText confirmPassword;
     private Button signUpButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        alreadyHaveAnAccount=findViewById(R.id.already_have_account);
+        alreadyHaveAnAccount = findViewById(R.id.already_have_account);
 //        frameLayout=getActivity().findViewById(R.id.register_frame_layout);
 //        errorIcon=getResources().getDrawable(R.drawable.ic_error);
 
-        username= findViewById(R.id.userName);
-        email=findViewById(R.id.email);
-        password=findViewById(R.id.password);
+        username = findViewById(R.id.userName);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
         confirmPassword = findViewById(R.id.confirmPassword);
         signUpButton = findViewById(R.id.signUpButton);
+
+
+
 
         alreadyHaveAnAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
+                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(intent);
 
             }
@@ -68,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //Gọi hàm signUpWithFireBase
-                if (checkInput() == true){
+                if (checkInput() == true) {
                     ProgressHelper.showDialog(SignUpActivity.this, "Loading...");
                     //firebaseRegisterNewUser();
 
@@ -98,19 +115,19 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    void gotoHomeActivity(){
+    void gotoHomeActivity() {
         Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
     }
 
-    void gotoLoginActivity(){
+    void gotoLoginActivity() {
         Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
 
-//    void firebaseRegisterNewUser(){
+    //    void firebaseRegisterNewUser(){
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
 //
 //        // Create a new user with a first and last name
@@ -140,7 +157,9 @@ public class SignUpActivity extends AppCompatActivity {
 //                });
 //    }
 
-    boolean checkInput(){
+
+
+    boolean checkInput() {
         if (email.getText().toString().length() < 6) {
             email.setError("Invalid mobile number / email.");
             return false;

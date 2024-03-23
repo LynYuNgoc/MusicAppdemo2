@@ -1,9 +1,18 @@
 package com.example.musicappdemo2.fragment;
 
+
+
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -17,7 +26,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.musicappdemo2.HomeActivity;
 import com.example.musicappdemo2.LoginActivity;
 import com.example.musicappdemo2.R;
@@ -26,6 +38,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class UserFragment extends Fragment {
@@ -35,6 +52,10 @@ public class UserFragment extends Fragment {
     private HomeActivity homeActivity;
 
     Button btnAlbumMng;
+    private ImageView imgAvatar;
+    private TextView tvName, tvEmail;
+
+
 
 
     @Override
@@ -47,11 +68,18 @@ public class UserFragment extends Fragment {
     }
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_user, container, false);
+
+        imgAvatar=view.findViewById(R.id.imageView2);
+        tvName=view.findViewById(R.id.tv_name);
+        tvEmail=view.findViewById(R.id.tv_email);
+        showUserInformation();
+
 
 
         bottomNavigationView = view.findViewById(R.id.bottom_navi);
@@ -76,6 +104,43 @@ public class UserFragment extends Fragment {
 
         return view;
     }
+    public void showUserInformation() {
+        FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();
+        if(user==null) {
+            return;
+        }
+        String name=user.getDisplayName();
+        String email=user.getEmail();
+        Uri photoUrl=user.getPhotoUrl();
+        if(name==null) {
+            tvName.setVisibility(View.GONE);
+        } else {
+            tvName.setVisibility(View.VISIBLE);
+            tvName.setText(name);
+
+        }
+
+        tvEmail.setText(email);
+        Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(imgAvatar);
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if(requestCode==MY_REQUEST_CODE) {
+//            if(grantResults.length>0 &&grantResults[0]== PackageManager.PERMISSION_GRANTED) {
+//                openGallery();
+//            }
+//
+//        }
+//    }
+//    public void  openGallery() {
+//        Intent intent=new Intent();
+//        intent.setType("image/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        mActivityResultLauncher.launch(Intent.createChooser(intent,"Select Picture"));
+//    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
