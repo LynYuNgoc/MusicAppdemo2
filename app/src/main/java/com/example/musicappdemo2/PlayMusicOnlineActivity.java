@@ -32,9 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class PlayMusicActivity extends AppCompatActivity {
-
-    String songMp3;
+public class PlayMusicOnlineActivity extends AppCompatActivity {
 
     SongItem item;
     Toolbar toolbarBack;
@@ -44,12 +42,13 @@ public class PlayMusicActivity extends AppCompatActivity {
     static MediaPlayer mMediaPlayer;
     private Runnable runnable;
     private AudioManager mAudioManager;
-    int currentIndex = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playmusic);
+
+
+        GetSongMp3FromFireStore();
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
@@ -67,7 +66,11 @@ public class PlayMusicActivity extends AppCompatActivity {
 
         songTitle.setText(item.getNameSong());
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
-        songMp3 = item.getSongMp3();     //phat bai hat cua item
+
+
+        int resID=getResources().getIdentifier(item.getIdSong(), "raw", getPackageName());
+
+        mMediaPlayer=MediaPlayer.create(this,resID);
 
 
         toolbarBack = findViewById(R.id.toolbarBackListSong);
@@ -80,31 +83,6 @@ public class PlayMusicActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
-        //creating an ArrayList to store songs
-        final ArrayList<Integer> songs = new ArrayList<>();
-
-        songs.add(0,R.raw.battinhyeulen);
-        songs.add(1,R.raw.roibo);
-        songs.add(2,R.raw.noinaycoanh);
-        songs.add(3,R.raw.chacaidoseve);
-        songs.add(4,R.raw.tungcautungchu);
-        songs.add(5,R.raw.chodoicodangso);
-
-
-
-
-
-
-
-
-
-        //intializing Mediaplayer
-        mMediaPlayer = MediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
-        //mMediaPlayer = MediaPlayer.create(getApplicationContext(),item.getSongMp3());
 
 
         //seekBar volume
@@ -147,73 +125,114 @@ public class PlayMusicActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mMediaPlayer != null){
-                    play.setImageResource(R.drawable.pause_white_button_icon);
-                }
-                if(currentIndex < songs.size() - 1){
-                    currentIndex++;
-                }else{
-                    currentIndex = 0;
-                }
-                if(mMediaPlayer.isPlaying()){
-                    mMediaPlayer.stop();
-                }
-                mMediaPlayer = mMediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
-                mMediaPlayer.start();
-                SongNames();
+
             }
         });
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mMediaPlayer != null){
-                    play.setImageResource(R.drawable.pause_white_button_icon);
-                }
-                if(currentIndex > 0){
-                    currentIndex--;
-                }else{
-                    currentIndex = songs.size() - 1;
-                }
-                if(mMediaPlayer.isPlaying()){
-                    mMediaPlayer.stop();
-                }
-
-                mMediaPlayer = mMediaPlayer.create(getApplicationContext(),songs.get(currentIndex));
-                mMediaPlayer.start();
-                SongNames();
             }
         });
 
     }
 
-    private void SongNames(){
-        if(currentIndex == 0){
-            songTitle.setText("Bật Tình Yêu Lên");
-            imageView.setImageResource(R.drawable.hoa_minzy);
-        }
-        if(currentIndex == 1){
-            songTitle.setText("Rời Bỏ");
-            imageView.setImageResource(R.drawable.hoa_minzy);
-        }
-        if(currentIndex == 2){
-            songTitle.setText("Lover - Nhac Trung");
-            imageView.setImageResource(R.drawable.lover);
-        }
-        if(currentIndex == 3){
-            songTitle.setText("Wo Ai Ta - Nhac Trung");
-            imageView.setImageResource(R.drawable.woaita);
-        }
-        if(currentIndex == 4){
-            songTitle.setText("Tung Cau Tung Chu - Nhac Trung");
-            imageView.setImageResource(R.drawable.tungcautungchu);
-        }
-        if(currentIndex == 5){
-            songTitle.setText("Cho Doi Co Dang So");
-            imageView.setImageResource(R.drawable.chodoi);
-        }
 
-        //seekBar duration(khoang thoi gian)
+
+
+    private void GetSongMp3FromFireStore(){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("Songs")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String,Object> dataItem = document.getData();
+                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
+
+                                String idSong = "";
+
+                                String songMp3 ="";
+
+
+                                if (dataItem.get("idSong") != null) {
+                                    idSong = dataItem.get("idSong").toString();
+                                }
+
+                                if (dataItem.get("songMp3") != null) {
+                                    songMp3 = dataItem.get("songMp3").toString();
+                                }
+
+
+                            }
+                        } else {
+                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+    }
+
+
+//    private void getListAlbumFromFireStore(){
+//
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Songs")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Map<String,Object> dataItem = document.getData();
+//                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
+//                                String nameSong = "";
+//                                String idSong = "";
+//                                String nameSinger = "";
+//                                String avatar = "";
+//                                Integer favorite = 0;
+//                                String idAlbum = "";
+//                                String songMp3 ="";
+//
+//
+//                                if (dataItem.get("nameSong") != null) {
+//                                    nameSong = dataItem.get("nameSong").toString();
+//                                }
+//                                if (dataItem.get("idSong") != null) {
+//                                    idSong = dataItem.get("idSong").toString();
+//                                }
+//                                if (dataItem.get("nameSinger") != null) {
+//                                    nameSinger = dataItem.get("nameSinger").toString();
+//                                }
+//                                if (dataItem.get("avatar") != null) {
+//                                    avatar = dataItem.get("avatar").toString();
+//                                }
+//                                if (dataItem.get("favorite") != null) {
+////                                    favorite = (Integer) dataItem.get("favorite");
+//                                }
+//                                if (dataItem.get("idAlbum") != null) {
+//                                    idAlbum = dataItem.get("idAlbum").toString();
+//                                }
+//                                if (dataItem.get("songMp3") != null) {
+//                                    songMp3 = dataItem.get("songMp3").toString();
+//                                }
+//
+//
+//
+//                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,0,songMp3);
+//                                listsong.add(item);
+//                            }
+//                        } else {
+//                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+
+    private void SongNames(){
         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -260,6 +279,4 @@ public class PlayMusicActivity extends AppCompatActivity {
             }
         }).start();
     }
-    //@SuppressLint("Handler Leak") Handler handler = new Handler()
-
 }

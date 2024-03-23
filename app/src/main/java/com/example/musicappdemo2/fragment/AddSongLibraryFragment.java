@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.musicappdemo2.PlayMusicActivity;
 import com.example.musicappdemo2.R;
@@ -45,6 +46,8 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
     ArrayList<SongItem> songItems;
     RecyclerView recyclerView;
     AddSongLibraryAdapter addSongLibraryAdapter;
+
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -85,8 +88,7 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        //initSampleData();
-//        getListSongFromRealTimeDatabase();
+
         getListAlbumFromFireStore();
     }
 
@@ -167,52 +169,6 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
     }
 
 
-
-
-
-
-
-
-
-    private void getListSongFromRealTimeDatabase() {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("listSong");
-
-
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                SongItem item = snapshot.getValue(SongItem.class);
-
-                if (item != null) {
-                    songItems.add(item);
-                    addSongLibraryAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
 
     @Override
     public void onClickAtItem(int position) {

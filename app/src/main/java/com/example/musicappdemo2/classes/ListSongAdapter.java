@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -70,12 +71,18 @@ public class ListSongAdapter extends RecyclerView.Adapter{
         TextView textViewSongName;
         TextView textViewSingerName;
 
+        //button them bai hat vao library
+        Button btnAddSongfromListSongtoLibrary;
+
         public ListSongViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageViewAvatar = itemView.findViewById(R.id.imageViewAvatarSong);
             textViewSongName = itemView.findViewById(R.id.textViewSongName);
             textViewSingerName = itemView.findViewById(R.id.textViewSingerName);
+
+            //button them bai hat vao library
+            btnAddSongfromListSongtoLibrary = itemView.findViewById(R.id.addSongfromListSong);
         }
     }
 

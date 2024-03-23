@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -62,16 +63,25 @@ public class AddSongLibraryAdapter extends RecyclerView.Adapter{
         private TextView textViewSongName;
         private TextView textViewSingerName;
 
+
+        //Xoa bai hat library
+        private Button deleteSonginLibrary;
         public AddSongLibraryViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imageViewAvatar = itemView.findViewById(R.id.imageViewAvatarAddSongLibrary);
             textViewSongName = itemView.findViewById(R.id.textViewNameAddSongLibrary);
             textViewSingerName = itemView.findViewById(R.id.textViewSingerNameAddSongLibrary);
+
+            //Xoa bai hat library
+            deleteSonginLibrary = itemView.findViewById(R.id.deleteSongLibrary);
         }
     }
 
     public  interface ListSongOnClickListener{
         void onClickAtItem(int position);
     }
+
+
+
 }
