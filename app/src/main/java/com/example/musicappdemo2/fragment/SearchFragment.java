@@ -70,7 +70,6 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
         homeActivity = (HomeActivity) getActivity();
         //homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
         //onDestroy();
-//        getListSongFromRealTimeDatabase();
         getListAlbumFromFireStore();
     }
 
@@ -180,7 +179,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
                                     avatar = dataItem.get("avatar").toString();
                                 }
                                 if (dataItem.get("favorite") != null) {
-//                                    favorite = (Integer) dataItem.get("favorite");
+                                    favorite = ((Long) dataItem.get("favorite")).intValue();
                                 }
                                 if (dataItem.get("idAlbum") != null) {
                                     idAlbum = dataItem.get("idAlbum").toString();
@@ -191,7 +190,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
 
 
 
-                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,0,songMp3);
+                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,favorite,songMp3);
                                 searchFilterItems.add(item);
                             }
                             searchFilterAdapter.notifyDataSetChanged();
@@ -201,60 +200,6 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
                     }
                 });
 
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //RealTimeDatabase
-    private void getListSongFromRealTimeDatabase() {
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("listSong");
-
-
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                SongItem item = snapshot.getValue(SongItem.class);
-
-                if (item != null){
-                    searchFilterItems.add(item);
-                    searchFilterAdapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
     }
 

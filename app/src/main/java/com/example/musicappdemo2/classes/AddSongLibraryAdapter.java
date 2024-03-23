@@ -63,9 +63,11 @@ public class AddSongLibraryAdapter extends RecyclerView.Adapter{
         private TextView textViewSongName;
         private TextView textViewSingerName;
 
-
         //Xoa bai hat library
         private Button deleteSonginLibrary;
+
+
+
         public AddSongLibraryViewHolder(@NonNull View itemView) {
             super(itemView);
 
