@@ -48,7 +48,7 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_playmusic);
 
 
-        GetSongMp3FromFireStore();
+//        GetSongMp3FromFireStore();
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 

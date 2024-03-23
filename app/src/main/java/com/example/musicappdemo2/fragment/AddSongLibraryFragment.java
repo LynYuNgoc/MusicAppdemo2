@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.musicappdemo2.PlayMusicActivity;
+import com.example.musicappdemo2.PlayMusicOnlineActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AddSongLibraryAdapter;
 import com.example.musicappdemo2.classes.ListSongAdapter;
@@ -144,7 +145,7 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
                                     avatar = dataItem.get("avatar").toString();
                                 }
                                 if (dataItem.get("favorite") != null) {
-//                                    favorite = (Integer) dataItem.get("favorite");
+                                    favorite = ((Long) dataItem.get("favorite")).intValue();
                                 }
                                 if (dataItem.get("idAlbum") != null) {
                                     idAlbum = dataItem.get("idAlbum").toString();
@@ -155,7 +156,7 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
 
 
 
-                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,0,songMp3);
+                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,favorite,songMp3);
                                 songItems.add(item);
                             }
                             addSongLibraryAdapter.notifyDataSetChanged();
@@ -172,7 +173,7 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
 
     @Override
     public void onClickAtItem(int position) {
-        Intent intent = new Intent(getActivity(), PlayMusicActivity.class);
+        Intent intent = new Intent(getActivity(), PlayMusicOnlineActivity.class);
         intent.putExtra("SONG_ITEM_EXTRA_KEY_NAME",songItems.get(position));
         startActivity(intent);
     }
