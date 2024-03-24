@@ -90,7 +90,8 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        getListAlbumFromFireStore();
+//        getListAlbumFromFireStore();
+        GetListFavouriteFromFireBase();
     }
 
     @Override
@@ -111,10 +112,70 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
 
 
 
-    private void getListAlbumFromFireStore(){
+//    private void getListAlbumFromFireStore(){
+//
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        db.collection("Songs")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Map<String,Object> dataItem = document.getData();
+//                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
+//                                String nameSong = "";
+//                                String idSong = "";
+//                                String nameSinger = "";
+//                                String avatar = "";
+//                                Integer favorite = 0;
+//                                String idAlbum = "";
+//                                String songMp3 ="";
+//
+//
+//                                if (dataItem.get("nameSong") != null) {
+//                                    nameSong = dataItem.get("nameSong").toString();
+//                                }
+//                                if (dataItem.get("idSong") != null) {
+//                                    idSong = dataItem.get("idSong").toString();
+//                                }
+//                                if (dataItem.get("nameSinger") != null) {
+//                                    nameSinger = dataItem.get("nameSinger").toString();
+//                                }
+//                                if (dataItem.get("avatar") != null) {
+//                                    avatar = dataItem.get("avatar").toString();
+//                                }
+//                                if (dataItem.get("favorite") != null) {
+//                                    favorite = ((Long) dataItem.get("favorite")).intValue();
+//                                }
+//                                if (dataItem.get("idAlbum") != null) {
+//                                    idAlbum = dataItem.get("idAlbum").toString();
+//                                }
+//                                if (dataItem.get("songMp3") != null) {
+//                                    songMp3 = dataItem.get("songMp3").toString();
+//                                }
+//
+//
+//
+//                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,favorite,songMp3);
+//                                songItems.add(item);
+//                            }
+//                            addSongLibraryAdapter.notifyDataSetChanged();
+//                        } else {
+//                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//
+//    }
 
+
+
+    private void GetListFavouriteFromFireBase(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Songs")
+                .whereEqualTo("favorite", 1)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -165,9 +226,10 @@ public class AddSongLibraryFragment extends Fragment implements AddSongLibraryAd
                         }
                     }
                 });
-
-
     }
+
+
+
 
 
 

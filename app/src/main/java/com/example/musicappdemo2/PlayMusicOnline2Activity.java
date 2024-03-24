@@ -53,7 +53,8 @@ public class PlayMusicOnline2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_playmusic);
 
         listsong = new ArrayList<>(); // Thêm dòng này để khởi tạo listsong
-        getListAlbumFromFireStore();
+//        getListAlbumFromFireStore();
+        GetListFavouriteFromFireBase();
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
@@ -286,6 +287,69 @@ public class PlayMusicOnline2Activity extends AppCompatActivity {
 
 
                                 item = new SongItem(idSong, nameSong, nameSinger, idAlbum, avatar, favorite, songMp3);
+                                listsong.add(item);
+                            }
+                            if (!listsong.isEmpty()) {
+                                playSong();
+                            }
+                        } else {
+                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
+
+
+
+    private void GetListFavouriteFromFireBase(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Songs")
+                .whereEqualTo("favorite", 1)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String,Object> dataItem = document.getData();
+                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
+                                String nameSong = "";
+                                String idSong = "";
+                                String nameSinger = "";
+                                String avatar = "";
+                                Integer favorite = 0;
+                                String idAlbum = "";
+                                String songMp3 ="";
+
+
+                                if (dataItem.get("nameSong") != null) {
+                                    nameSong = dataItem.get("nameSong").toString();
+                                }
+                                if (dataItem.get("idSong") != null) {
+                                    idSong = dataItem.get("idSong").toString();
+                                }
+                                if (dataItem.get("nameSinger") != null) {
+                                    nameSinger = dataItem.get("nameSinger").toString();
+                                }
+                                if (dataItem.get("avatar") != null) {
+                                    avatar = dataItem.get("avatar").toString();
+                                }
+                                if (dataItem.get("favorite") != null) {
+                                    favorite = ((Long) dataItem.get("favorite")).intValue();
+                                }
+                                if (dataItem.get("idAlbum") != null) {
+                                    idAlbum = dataItem.get("idAlbum").toString();
+                                }
+                                if (dataItem.get("songMp3") != null) {
+                                    songMp3 = dataItem.get("songMp3").toString();
+                                }
+
+
+
+                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,favorite,songMp3);
                                 listsong.add(item);
                             }
                             if (!listsong.isEmpty()) {
