@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -181,6 +183,19 @@ public class PlayMusicOnline2Activity extends AppCompatActivity {
             }
         });
 
+        // Sử dụng Handler để cập nhật tiến trình của bài hát mỗi giây
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                    int mCurrentPosition = mMediaPlayer.getCurrentPosition();
+                    mSeekBarTime.setProgress(mCurrentPosition);
+                }
+                // Lặp lại sau mỗi 1 giây
+                handler.postDelayed(this, 1000);
+            }
+        }, 1000);
+
         mSeekBarTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -192,12 +207,12 @@ public class PlayMusicOnline2Activity extends AppCompatActivity {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // Không cần thực hiện gì khi bắt đầu kéo seekBar
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                // Không cần thực hiện gì khi bắt đầu kéo seekBar
             }
         });
 
@@ -209,7 +224,7 @@ public class PlayMusicOnline2Activity extends AppCompatActivity {
                         if (mMediaPlayer.isPlaying()) {
                             Message message = new Message();
                             message.what = mMediaPlayer.getCurrentPosition();
-                            //handler.sendMessage(message);
+                            handler.sendMessage(message);
                             Thread.sleep(1000);
                         }
                     } catch (InterruptedException e) {
@@ -219,7 +234,11 @@ public class PlayMusicOnline2Activity extends AppCompatActivity {
             }
         }).start();
     }
-    //@SuppressLint("Handler Leak") Handler handler = new Handler()
+    @SuppressLint("Handler Leak") Handler handler = new Handler();
+
+
+
+
 
 
     void getListAlbumFromFireStore() {
