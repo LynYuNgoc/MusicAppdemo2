@@ -13,15 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.musicappdemo2.AlbumSongActivity;
 import com.example.musicappdemo2.HomeActivity;
 import com.example.musicappdemo2.LoginActivity;
 import com.example.musicappdemo2.PlayMusicActivity;
+import com.example.musicappdemo2.PlayMusicOnline2Activity;
 import com.example.musicappdemo2.R;
 
 
 public class LibraryFragment extends Fragment {
     private HomeActivity homeActivity;
-
+    Button btPlayMusic;
 
 
     @Override
@@ -31,13 +33,27 @@ public class LibraryFragment extends Fragment {
         homeActivity = (HomeActivity)getActivity();
 //        homeActivity.hideToolbar(); // Ẩn thanh toolbar khi Fragment được tạo
 
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=inflater.inflate(R.layout.fragment_library, container, false);
+        View view = inflater.inflate(R.layout.fragment_library, container, false);
+
+        btPlayMusic = view.findViewById(R.id.buttonPlaySong);
+        btPlayMusic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), PlayMusicOnline2Activity.class);
+                startActivity(i);
+
+            }
+        });
+
 
         return view;
     }

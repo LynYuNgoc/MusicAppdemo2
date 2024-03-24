@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -113,6 +114,9 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
         private TextView textViewSongName;
         private TextView textViewSingerName;
 
+        //button them bai hat vao library
+        Button btnAddSongfromSearchtoLibrary;
+
 
         public SearchFilterViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -120,6 +124,9 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
             imageViewSong = itemView.findViewById(R.id.imageViewAvatarAddSongLibrary);
             textViewSongName = itemView.findViewById(R.id.textViewSearchSongName);
             textViewSingerName = itemView.findViewById(R.id.textViewSearchSingerName);
+
+            //button them bai hat vao library
+            btnAddSongfromSearchtoLibrary = itemView.findViewById(R.id.addSongfromSearch);
         }
     }
 

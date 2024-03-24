@@ -128,7 +128,7 @@ public class ListSongFragment extends Fragment implements ListSongAdapter.ListSo
                                     avatar = dataItem.get("avatar").toString();
                                 }
                                 if (dataItem.get("favorite") != null) {
-//                                    favorite = (Integer) dataItem.get("favorite");
+                                    favorite = ((Long) dataItem.get("favorite")).intValue();
                                 }
                                 if (dataItem.get("idAlbum") != null) {
                                     idAlbum = dataItem.get("idAlbum").toString();
@@ -139,7 +139,7 @@ public class ListSongFragment extends Fragment implements ListSongAdapter.ListSo
 
 
 
-                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,0,songMp3);
+                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,favorite,songMp3);
                                 if (item.getIdAlbum().equals(albumName)) {
                                     listSong.add(item);
                                 }

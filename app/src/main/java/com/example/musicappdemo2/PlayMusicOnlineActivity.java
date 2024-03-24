@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
@@ -42,6 +44,7 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
     static MediaPlayer mMediaPlayer;
     private Runnable runnable;
     private AudioManager mAudioManager;
+    Handler handler = new Handler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +71,8 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
 
 
+        //check bai hat = IdSong va lay bai hat tu thu muc raw de phat nhac
         int resID=getResources().getIdentifier(item.getIdSong(), "raw", getPackageName());
-
         mMediaPlayer=MediaPlayer.create(this,resID);
 
 
@@ -139,99 +142,6 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
 
 
 
-
-    private void GetSongMp3FromFireStore(){
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("Songs")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String,Object> dataItem = document.getData();
-                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
-
-                                String idSong = "";
-
-                                String songMp3 ="";
-
-
-                                if (dataItem.get("idSong") != null) {
-                                    idSong = dataItem.get("idSong").toString();
-                                }
-
-                                if (dataItem.get("songMp3") != null) {
-                                    songMp3 = dataItem.get("songMp3").toString();
-                                }
-
-
-                            }
-                        } else {
-                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-    }
-
-
-//    private void getListAlbumFromFireStore(){
-//
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-//        db.collection("Songs")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Map<String,Object> dataItem = document.getData();
-//                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
-//                                String nameSong = "";
-//                                String idSong = "";
-//                                String nameSinger = "";
-//                                String avatar = "";
-//                                Integer favorite = 0;
-//                                String idAlbum = "";
-//                                String songMp3 ="";
-//
-//
-//                                if (dataItem.get("nameSong") != null) {
-//                                    nameSong = dataItem.get("nameSong").toString();
-//                                }
-//                                if (dataItem.get("idSong") != null) {
-//                                    idSong = dataItem.get("idSong").toString();
-//                                }
-//                                if (dataItem.get("nameSinger") != null) {
-//                                    nameSinger = dataItem.get("nameSinger").toString();
-//                                }
-//                                if (dataItem.get("avatar") != null) {
-//                                    avatar = dataItem.get("avatar").toString();
-//                                }
-//                                if (dataItem.get("favorite") != null) {
-////                                    favorite = (Integer) dataItem.get("favorite");
-//                                }
-//                                if (dataItem.get("idAlbum") != null) {
-//                                    idAlbum = dataItem.get("idAlbum").toString();
-//                                }
-//                                if (dataItem.get("songMp3") != null) {
-//                                    songMp3 = dataItem.get("songMp3").toString();
-//                                }
-//
-//
-//
-//                                SongItem item = new SongItem(idSong,nameSong,nameSinger,idAlbum,avatar,0,songMp3);
-//                                listsong.add(item);
-//                            }
-//                        } else {
-//                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-
     private void SongNames(){
         mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
@@ -240,6 +150,20 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
                 mMediaPlayer.start();
             }
         });
+
+        // Sử dụng Handler để cập nhật tiến trình của bài hát mỗi giây
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+                    int mCurrentPosition = mMediaPlayer.getCurrentPosition();
+                    mSeekBarTime.setProgress(mCurrentPosition);
+                }
+                // Lặp lại sau mỗi 1 giây
+                handler.postDelayed(this, 1000);
+            }
+        }, 1000);
+
 
         mSeekBarTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -261,22 +185,67 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
             }
         });
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (mMediaPlayer != null){
-                    try{
-                        if(mMediaPlayer.isPlaying()){
-                            Message message = new Message();
-                            message.what = mMediaPlayer.getCurrentPosition();
-                            //handler.sendMessage(message);
-                            Thread.sleep(1000);
-                        }
-                    }catch (InterruptedException e){
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                while (mMediaPlayer != null){
+//                    try{
+//                        if(mMediaPlayer.isPlaying()){
+//                            Message message = new Message();
+//                            message.what = mMediaPlayer.getCurrentPosition();
+//                            handler.sendMessage(message);
+//                            Thread.sleep(1000);
+//                        }
+//                    }catch (InterruptedException e){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        }).start();
     }
+//    @SuppressLint("Handler Leak") Handler handler = new Handler();
+
+
+
+
+
+
+
+//    private void GetSongMp3FromFireStore(){
+//
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//
+//        db.collection("Songs")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Map<String,Object> dataItem = document.getData();
+//                                Log.d("FirebaseFirestore", document.getId() + " => " + document.getData());
+//
+//                                String idSong = "";
+//
+//                                String songMp3 ="";
+//
+//
+//                                if (dataItem.get("idSong") != null) {
+//                                    idSong = dataItem.get("idSong").toString();
+//                                }
+//
+//                                if (dataItem.get("songMp3") != null) {
+//                                    songMp3 = dataItem.get("songMp3").toString();
+//                                }
+//
+//
+//                            }
+//                        } else {
+//                            Log.d("FirebaseFirestore", "Error getting documents: ", task.getException());
+//                        }
+//                    }
+//                });
+//
+//    }
+
 }
