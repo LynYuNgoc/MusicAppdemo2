@@ -30,14 +30,14 @@
             android:layout_height="330dp"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:src="@drawable/chill" />
+            android:src="@drawable/hoa_minzy" />
 
         <TextView
             android:id="@+id/songTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Song Title"
+            android:text="Bật Tình Yêu Lên"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:textStyle="bold" />

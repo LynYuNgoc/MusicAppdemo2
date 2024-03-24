@@ -21,7 +21,7 @@ public class AlbumSongActivity extends AppCompatActivity {
     TextView textViewName;
     ImageView imageView;
     Toolbar toolbar;
-    Button btPlayMusic;
+
 
     AlbumItem item;
     @Override
@@ -45,15 +45,6 @@ public class AlbumSongActivity extends AppCompatActivity {
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
 
 
-
-        btPlayMusic = findViewById(R.id.buttonPlaySong);
-        btPlayMusic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(AlbumSongActivity.this, PlayMusicActivity.class);
-                startActivity(i);
-            }
-        });
 
 
     }

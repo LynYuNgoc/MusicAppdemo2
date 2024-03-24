@@ -68,8 +68,8 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
         imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
 
 
+        //check bai hat = IdSong va lay bai hat tu thu muc raw de phat nhac
         int resID=getResources().getIdentifier(item.getIdSong(), "raw", getPackageName());
-
         mMediaPlayer=MediaPlayer.create(this,resID);
 
 

@@ -61,13 +61,13 @@ public class PlayMusicActivity extends AppCompatActivity {
         mSeekBarTime = findViewById(R.id.seekBarTime);
         mSeekBarVol = findViewById(R.id.seekBarVol);
 
-        Intent intent = getIntent();
-        item = intent.getParcelableExtra("SONG_ITEM_EXTRA_KEY_NAME");
-
-
-        songTitle.setText(item.getNameSong());
-        imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
-        songMp3 = item.getSongMp3();     //phat bai hat cua item
+//        Intent intent = getIntent();
+//        item = intent.getParcelableExtra("SONG_ITEM_EXTRA_KEY_NAME");
+//
+//
+//        songTitle.setText(item.getNameSong());
+//        imageView.setImageBitmap(Utils.loadBitmapFromAssets(this,item.getAvatar(),"default_album_avatar"));
+//        songMp3 = item.getSongMp3();     //phat bai hat cua item
 
 
         toolbarBack = findViewById(R.id.toolbarBackListSong);
@@ -88,11 +88,10 @@ public class PlayMusicActivity extends AppCompatActivity {
         final ArrayList<Integer> songs = new ArrayList<>();
 
         songs.add(0,R.raw.battinhyeulen);
-        songs.add(1,R.raw.roibo);
+        songs.add(1,R.raw.chacaidoseve);
         songs.add(2,R.raw.noinaycoanh);
-        songs.add(3,R.raw.chacaidoseve);
-        songs.add(4,R.raw.tungcautungchu);
-        songs.add(5,R.raw.chodoicodangso);
+        songs.add(3,R.raw.roibo);
+
 
 
 
@@ -193,8 +192,8 @@ public class PlayMusicActivity extends AppCompatActivity {
             imageView.setImageResource(R.drawable.hoa_minzy);
         }
         if(currentIndex == 1){
-            songTitle.setText("Rời Bỏ");
-            imageView.setImageResource(R.drawable.hoa_minzy);
+            songTitle.setText("Chắc Ai Đó Sẽ Về");
+            imageView.setImageResource(R.drawable.sontung);
         }
         if(currentIndex == 2){
             songTitle.setText("Lover - Nhac Trung");

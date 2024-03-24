@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 
 import com.example.musicappdemo2.HomeActivity;
 import com.example.musicappdemo2.PlayMusicActivity;
+import com.example.musicappdemo2.PlayMusicOnlineActivity;
 import com.example.musicappdemo2.R;
 import com.example.musicappdemo2.classes.AlbumItem;
 import com.example.musicappdemo2.classes.SearchFilterAdapter;
@@ -133,7 +134,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
 
     @Override
     public void onClickAtItem(int position) {
-        Intent intent = new Intent(getActivity(), PlayMusicActivity.class);
+        Intent intent = new Intent(getActivity(), PlayMusicOnlineActivity.class);
         intent.putExtra("SONG_ITEM_EXTRA_KEY_NAME",searchFilterItems.get(position));
 
         startActivity(intent);
