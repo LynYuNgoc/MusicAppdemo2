@@ -74,7 +74,8 @@ public class PlayMusicOnlineActivity extends AppCompatActivity {
         //check bai hat = IdSong va lay bai hat tu thu muc raw de phat nhac
         int resID=getResources().getIdentifier(item.getIdSong(), "raw", getPackageName());
         mMediaPlayer=MediaPlayer.create(this,resID);
-
+        mMediaPlayer.start();
+        SongNames();
 
         toolbarBack = findViewById(R.id.toolbarBackListSong);
         setSupportActionBar(toolbarBack);
