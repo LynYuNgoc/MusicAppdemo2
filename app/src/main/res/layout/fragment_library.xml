@@ -20,7 +20,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
-            android:text="Phát Bài Hát " />
+            android:text="Phát Bài Hát"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentAddSongLibrary"

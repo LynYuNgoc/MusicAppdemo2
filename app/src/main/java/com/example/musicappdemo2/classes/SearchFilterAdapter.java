@@ -23,16 +23,20 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
 
     ArrayList<SongItem> searchFilterItems;
     ArrayList<SongItem> searchFilterItemsOld;
+    Context context;
+    ListSongOnClickListener listSongOnClickListener;
 
-    public SearchFilterAdapter(ArrayList<SongItem> searchFilterItems, Context context, ListSongOnClickListener listSongOnClickListener ) {
+    OnButtonClickListener mListener;
+
+    public SearchFilterAdapter(ArrayList<SongItem> searchFilterItems, Context context, ListSongOnClickListener listSongOnClickListener, OnButtonClickListener mListener ) {
         this.searchFilterItems = searchFilterItems;
         this.searchFilterItemsOld = searchFilterItems;
         this.context = context;
         this.listSongOnClickListener = listSongOnClickListener;
+        this.mListener = mListener;
     }
 
-    Context context;
-    ListSongOnClickListener listSongOnClickListener;
+
 
     @NonNull
     @Override
@@ -59,6 +63,9 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
 
         searchFilterViewHolder.imageViewSong.setImageBitmap(Utils.loadBitmapFromAssets(context, searchItem.getAvatar(), "default_album_avatar"));
         searchFilterViewHolder.itemView.setOnClickListener(v -> listSongOnClickListener.onClickAtItem(position));
+
+        // Gán trình nghe sự kiện cho button trong item
+        searchFilterViewHolder.btnAddSongfromSearchtoLibrary.setOnClickListener(v -> mListener.onButtonClick(position));
 
     }
 
@@ -134,5 +141,11 @@ public class SearchFilterAdapter extends RecyclerView.Adapter implements Filtera
 
     public  interface ListSongOnClickListener{
         void onClickAtItem(int position);
+    }
+
+
+    // Định nghĩa interface cho trình nghe sự kiện
+    public interface OnButtonClickListener {
+        void onButtonClick(int position);
     }
 }

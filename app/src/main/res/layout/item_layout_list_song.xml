@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="15dp"
-    android:paddingTop="15dp">
+    android:paddingTop="15dp"
+    >
 
     <ImageView
         android:id="@+id/imageViewAvatarSong"
         android:layout_width="120dp"
         android:layout_height="90dp"
-        android:src="@drawable/dark_background" />
+        android:src="@drawable/woaita" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +43,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="10dp"
-        android:text="Thêm" />
+        android:layout_marginRight="5dp"
+        android:text="Thêm"
+        android:backgroundTint="@color/black"/>
 
 </LinearLayout>

@@ -18,15 +18,19 @@ import java.util.ArrayList;
 public class ListSongAdapter extends RecyclerView.Adapter{
 
     ArrayList<SongItem> songItems;
+    Context context;
+    ListSongOnClickListener listSongOnClickListener;
 
-    public ListSongAdapter(ArrayList<SongItem> songItems, Context context, ListSongOnClickListener listSongOnClickListener) {
+    OnButtonClickListener mListener;
+
+
+    public ListSongAdapter(ArrayList<SongItem> songItems, Context context, ListSongOnClickListener listSongOnClickListener, OnButtonClickListener mListener) {
         this.songItems = songItems;
         this.context = context;
         this.listSongOnClickListener = listSongOnClickListener;
+        this.mListener = mListener;
     }
 
-    Context context;
-    ListSongOnClickListener listSongOnClickListener;
 
 
     @NonNull
@@ -53,6 +57,11 @@ public class ListSongAdapter extends RecyclerView.Adapter{
         //avatar
         listSongViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
         listSongViewHolder.itemView.setOnClickListener(v -> listSongOnClickListener.onClickAtItem(position));
+
+
+
+        // Gán trình nghe sự kiện cho button trong item
+        listSongViewHolder.btnAddSongfromListSongtoLibrary.setOnClickListener(v -> mListener.onButtonClick(position));
     }
 
     @Override
@@ -88,5 +97,12 @@ public class ListSongAdapter extends RecyclerView.Adapter{
 
     public  interface ListSongOnClickListener{
         void onClickAtItem(int position);
+    }
+
+
+
+    // Định nghĩa interface cho trình nghe sự kiện
+    public interface OnButtonClickListener {
+        void onButtonClick(int position);
     }
 }

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,25 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.musicappdemo2.PlayMusicActivity;
 import com.example.musicappdemo2.PlayMusicOnlineActivity;
 import com.example.musicappdemo2.R;
-import com.example.musicappdemo2.classes.AlbumItem;
 import com.example.musicappdemo2.classes.ListSongAdapter;
 import com.example.musicappdemo2.classes.SongItem;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -45,7 +34,7 @@ import java.util.Map;
  * Use the {@link ListSongFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListSongFragment extends Fragment implements ListSongAdapter.ListSongOnClickListener{
+public class ListSongFragment extends Fragment implements ListSongAdapter.ListSongOnClickListener, ListSongAdapter.OnButtonClickListener{
 
     ArrayList<SongItem> listSong;
     String albumName = "";
@@ -163,7 +152,7 @@ public class ListSongFragment extends Fragment implements ListSongAdapter.ListSo
 
         listSong = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerViewListSong);
-        listSongAdapter = new ListSongAdapter(listSong, getContext(), this);
+        listSongAdapter = new ListSongAdapter(listSong, getContext(), this, this);
         recyclerView.setAdapter(listSongAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         return view;
@@ -179,4 +168,37 @@ public class ListSongFragment extends Fragment implements ListSongAdapter.ListSo
         startActivity(intent);
     }
 
-}
+
+    @Override
+    public void onButtonClick(int position) {
+        // Xử lý sự kiện khi người dùng nhấn vào button trong một item của RecyclerView
+        // cập nhật trên Cloud Firestore
+
+        // cập nhật trường "favorite" của bài hát tại vị trí position
+        SongItem clickedItem = listSong.get(position);
+        clickedItem.setFavorite(0);
+
+        // cập nhật trên Cloud Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Songs").document(clickedItem.getIdSong())
+                .update("favorite", 1)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Cập nhật thành công
+                        // Có thể thông báo cho người dùng
+                        Toast.makeText(getContext(), "Bài hát đã được thêm vào thư viện", Toast.LENGTH_SHORT).show();
+                        // Sau khi cập nhật xong, cập nhật lại dữ liệu trong RecyclerView
+                        listSongAdapter.notifyItemChanged(position);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xảy ra lỗi khi cập nhật
+                        // Có thể xử lý lỗi ở đây
+                        Log.e("ListSongFragment", "Error updating document", e);
+                    }
+                });
+
+    }}

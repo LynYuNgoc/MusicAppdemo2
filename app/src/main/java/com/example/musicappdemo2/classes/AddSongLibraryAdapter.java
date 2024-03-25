@@ -18,15 +18,18 @@ import java.util.ArrayList;
 public class AddSongLibraryAdapter extends RecyclerView.Adapter{
 
     ArrayList<SongItem> songItems;
+    Context context;
+    ListSongOnClickListener listSongOnClickListener;
+    OnButtonClickListener mListener;
 
-    public AddSongLibraryAdapter(ArrayList<SongItem> songItems, Context context, ListSongOnClickListener listSongOnClickListener) {
+    public AddSongLibraryAdapter(ArrayList<SongItem> songItems, Context context, ListSongOnClickListener listSongOnClickListener, OnButtonClickListener mListener) {
         this.songItems = songItems;
         this.context = context;
         this.listSongOnClickListener = listSongOnClickListener;
+        this.mListener = mListener;
     }
 
-    Context context;
-    ListSongOnClickListener listSongOnClickListener;
+
 
     @NonNull
     @Override
@@ -51,6 +54,9 @@ public class AddSongLibraryAdapter extends RecyclerView.Adapter{
         addSongLibraryViewHolder.imageViewAvatar.setImageBitmap(Utils.loadBitmapFromAssets(context, item.getAvatar(), "default_album_avatar"));
         addSongLibraryViewHolder.itemView.setOnClickListener(v -> listSongOnClickListener.onClickAtItem(position));
 
+        // Gán trình nghe sự kiện cho button trong item
+        addSongLibraryViewHolder.btndeleteSonginLibrary.setOnClickListener(v -> mListener.onButtonClick(position));
+
     }
 
     @Override
@@ -64,7 +70,7 @@ public class AddSongLibraryAdapter extends RecyclerView.Adapter{
         private TextView textViewSingerName;
 
         //Xoa bai hat library
-        private Button deleteSonginLibrary;
+        private Button btndeleteSonginLibrary;
 
 
 
@@ -76,7 +82,7 @@ public class AddSongLibraryAdapter extends RecyclerView.Adapter{
             textViewSingerName = itemView.findViewById(R.id.textViewSingerNameAddSongLibrary);
 
             //Xoa bai hat library
-            deleteSonginLibrary = itemView.findViewById(R.id.deleteSongLibrary);
+            btndeleteSonginLibrary = itemView.findViewById(R.id.deleteSongLibrary);
         }
     }
 
@@ -85,5 +91,9 @@ public class AddSongLibraryAdapter extends RecyclerView.Adapter{
     }
 
 
+    // Định nghĩa interface cho trình nghe sự kiện
+    public interface OnButtonClickListener {
+        void onButtonClick(int position);
+    }
 
 }

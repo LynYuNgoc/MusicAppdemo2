@@ -23,6 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.musicappdemo2.HomeActivity;
 import com.example.musicappdemo2.PlayMusicActivity;
@@ -33,6 +34,8 @@ import com.example.musicappdemo2.classes.SearchFilterAdapter;
 import com.example.musicappdemo2.classes.SearchFilterItem;
 import com.example.musicappdemo2.classes.SongItem;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SearchFragment extends Fragment implements SearchFilterAdapter.ListSongOnClickListener{
+public class SearchFragment extends Fragment implements SearchFilterAdapter.ListSongOnClickListener, SearchFilterAdapter.OnButtonClickListener{
 
     private MenuItem menuItem;
     private SearchView searchView;
@@ -85,7 +88,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
 
         searchFilterItems = new ArrayList<>();
         recyclerView = view.findViewById(R.id.recyclerViewSearchSong);
-        searchFilterAdapter = new SearchFilterAdapter(searchFilterItems, getContext(), this);
+        searchFilterAdapter = new SearchFilterAdapter(searchFilterItems, getContext(), this, this);
 
         recyclerView.setAdapter(searchFilterAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -205,4 +208,37 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
     }
 
 
+    @Override
+    public void onButtonClick(int position) {
+
+        // Xử lý sự kiện khi người dùng nhấn vào button trong một item của RecyclerView
+        // cập nhật trên Cloud Firestore
+
+        // cập nhật trường "favorite" của bài hát tại vị trí position
+        SongItem clickedItem = searchFilterItems.get(position);
+        clickedItem.setFavorite(0);
+
+        // cập nhật trên Cloud Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Songs").document(clickedItem.getIdSong())
+                .update("favorite", 1)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Cập nhật thành công
+                        // Có thể thông báo cho người dùng
+                        Toast.makeText(getContext(), "Bài hát đã được thêm vào thư viện", Toast.LENGTH_SHORT).show();
+                        // Sau khi cập nhật xong, cập nhật lại dữ liệu trong RecyclerView
+                        searchFilterAdapter.notifyItemChanged(position);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xảy ra lỗi khi cập nhật
+                        // Có thể xử lý lỗi ở đây
+                        Log.e("ListSongFragment", "Error updating document", e);
+                    }
+                });
+    }
 }

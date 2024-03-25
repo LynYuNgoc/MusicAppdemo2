@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="15dp"
-    android:paddingTop="15dp">
+    android:paddingTop="15dp"
+    android:background="@drawable/dark_background">
 
     <ImageView
         android:id="@+id/imageViewAvatarAddSongLibrary"
@@ -44,7 +45,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="10dp"
-        android:text="Thêm" />
+        android:layout_marginRight="5dp"
+        android:text="Thêm"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"/>
 
 </LinearLayout>
