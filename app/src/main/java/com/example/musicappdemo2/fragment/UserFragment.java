@@ -19,6 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -51,9 +53,10 @@ public class UserFragment extends Fragment {
     BottomNavigationView bottomNavigationView;
     private HomeActivity homeActivity;
 
-    Button btnAlbumMng;
+    private Button btnAlbumMng, btnEditProfile;
     private ImageView imgAvatar;
     private TextView tvName, tvEmail;
+
 
 
 
@@ -78,6 +81,7 @@ public class UserFragment extends Fragment {
         imgAvatar=view.findViewById(R.id.imageView2);
         tvName=view.findViewById(R.id.tv_name);
         tvEmail=view.findViewById(R.id.tv_email);
+
         showUserInformation();
 
 
@@ -93,16 +97,24 @@ public class UserFragment extends Fragment {
 //                    getActivity().finish();
 
                     showConfirmLogOut();
-
-
+                }
+                if(item.getItemId()==R.id.edt_profile) {
+                    setFragment(new MyProfileFragment());
                 }
                 return false;
             }
         });
 
 
-
         return view;
+    }
+    void setFragment(Fragment fragment) {
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
     public void showUserInformation() {
         FirebaseUser user=FirebaseAuth.getInstance().getCurrentUser();

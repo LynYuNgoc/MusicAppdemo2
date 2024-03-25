@@ -4,6 +4,7 @@ import static com.example.musicappdemo2.HomeActivity.MY_REQUEST_CODE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,6 +13,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +34,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MyProfileFragment extends Fragment {
@@ -38,13 +44,18 @@ public class MyProfileFragment extends Fragment {
 
    private ImageView imgAvatar;
    private EditText edtFullName, edtEmail;
-   private Button btnUpdate;
+   private Button btnUpdate,btnBack;
    private Uri mUri;
    private HomeActivity mHomeActivity;
+
+   String userName, emailUser;
+   DatabaseReference reference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
     }
 
@@ -59,11 +70,57 @@ public class MyProfileFragment extends Fragment {
         edtFullName=view.findViewById(R.id.edt_full_name);
         edtEmail=view.findViewById(R.id.edt_email);
         btnUpdate=view.findViewById(R.id.btn_update);
+        btnBack=view.findViewById(R.id.btn_back);
+
+        reference= FirebaseDatabase.getInstance().getReference("users");
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setFragment(new UserFragment());
+            }
+        });
+
+
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isNameChanged()) {
+                    Toast.makeText(getActivity(), "Saved",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(),"No changes",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         setUserInformation();
         initListener();
         return view;
+
     }
+
+    void setFragment(Fragment fragment) {
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.fragmentContainerView, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public boolean isNameChanged() {
+        if (!userName.equals(edtFullName.getText().toString())) {
+            reference.child(userName).child("name").setValue(edtFullName.getText().toString());
+            userName=edtFullName.getText().toString();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+
     private void setUserInformation() {
         FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
         if(user==null) {
@@ -135,4 +192,5 @@ public class MyProfileFragment extends Fragment {
                     }
                 });
     }
+
 }

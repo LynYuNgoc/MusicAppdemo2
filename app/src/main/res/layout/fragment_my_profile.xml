@@ -8,6 +8,7 @@
     android:padding="20dp"
     tools:context=".fragment.MyProfileFragment">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_avatar"
         android:layout_width="120dp"
@@ -19,21 +20,28 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_marginTop="30dp"
-        android:hint="Full name"/>
+        android:hint="Full name"
+        android:textColor="@color/white"/>
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:layout_marginTop="10dp"
-        android:hint="Email"/>
+        android:hint="Email"
+        android:textColor="@color/white"/>
     <Button
         android:id="@+id/btn_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="Update Profile" />
-
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Go Back" />
 
 
 </LinearLayout>
