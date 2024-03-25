@@ -117,7 +117,7 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
         //searchView.setIconifiedByDefault(true);
 
 
-        //MenuItemCompat.expandActionView(menu.findItem(R.id.action_search)); //fix bug nhap chu
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
