@@ -135,7 +135,7 @@ public class MyProfileFragment extends Fragment {
         imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onCliclRequestPermission();
+                onClickRequestPermission();
             }
         });
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +145,7 @@ public class MyProfileFragment extends Fragment {
             }
         });
     }
-    private void  onCliclRequestPermission() {
+    private void  onClickRequestPermission() {
 
         if(mHomeActivity==null)
         {
