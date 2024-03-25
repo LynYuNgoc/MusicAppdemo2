@@ -146,6 +146,41 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
 
 
 
+    @Override
+    public void onButtonClick(int position) {
+
+        // Xử lý sự kiện khi người dùng nhấn vào button trong một item của RecyclerView
+        // cập nhật trên Cloud Firestore
+
+        // cập nhật trường "favorite" của bài hát tại vị trí position
+        SongItem clickedItem = searchFilterItems.get(position);
+        clickedItem.setFavorite(0);
+
+        // cập nhật trên Cloud Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Songs").document(clickedItem.getIdSong())
+                .update("favorite", 1)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Cập nhật thành công
+                        // Có thể thông báo cho người dùng
+                        Toast.makeText(getContext(), "Bài hát đã được thêm vào thư viện", Toast.LENGTH_SHORT).show();
+                        // Sau khi cập nhật xong, cập nhật lại dữ liệu trong RecyclerView
+                        searchFilterAdapter.notifyItemChanged(position);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Xảy ra lỗi khi cập nhật
+                        // Có thể xử lý lỗi ở đây
+                        Log.e("ListSongFragment", "Error updating document", e);
+                    }
+                });
+
+    }
+
 
 
 
@@ -208,37 +243,5 @@ public class SearchFragment extends Fragment implements SearchFilterAdapter.List
     }
 
 
-    @Override
-    public void onButtonClick(int position) {
 
-        // Xử lý sự kiện khi người dùng nhấn vào button trong một item của RecyclerView
-        // cập nhật trên Cloud Firestore
-
-        // cập nhật trường "favorite" của bài hát tại vị trí position
-        SongItem clickedItem = searchFilterItems.get(position);
-        clickedItem.setFavorite(0);
-
-        // cập nhật trên Cloud Firestore
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Songs").document(clickedItem.getIdSong())
-                .update("favorite", 1)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // Cập nhật thành công
-                        // Có thể thông báo cho người dùng
-                        Toast.makeText(getContext(), "Bài hát đã được thêm vào thư viện", Toast.LENGTH_SHORT).show();
-                        // Sau khi cập nhật xong, cập nhật lại dữ liệu trong RecyclerView
-                        searchFilterAdapter.notifyItemChanged(position);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Xảy ra lỗi khi cập nhật
-                        // Có thể xử lý lỗi ở đây
-                        Log.e("ListSongFragment", "Error updating document", e);
-                    }
-                });
-    }
 }
