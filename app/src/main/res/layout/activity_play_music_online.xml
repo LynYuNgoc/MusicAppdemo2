@@ -94,20 +94,20 @@
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/volmin" />
+                android:layout_marginLeft="40dp"
+                android:src="@drawable/vol_min_white" />
 
             <SeekBar
                 android:id="@+id/seekBarVol"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp" />
+                android:layout_gravity="center" />
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:src="@drawable/volmax" />
+                android:layout_marginLeft="5dp"
+                android:src="@drawable/vol_max_white" />
 
         </LinearLayout>
 
