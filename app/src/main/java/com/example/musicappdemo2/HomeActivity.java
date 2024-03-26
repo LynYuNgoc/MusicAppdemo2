@@ -1,5 +1,6 @@
 package com.example.musicappdemo2;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -98,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
 
                 if (item.getItemId() == R.id.mnBottomUser) {
 
-                    setFragment(new UserFragment());
+                    setFragment(mMyProfileFragment);
                 }
 
 
@@ -127,12 +129,17 @@ public class HomeActivity extends AppCompatActivity {
 //        Glide.with(this).load(photoUrl).error(R.drawable.ic_avatar_default).into(imgAvatar);
 //    }
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openGallery();
+            } else {
+                // Quyền không được cấp, hiển thị thông báo hoặc thông báo lỗi cho người dùng
+                Toast.makeText(this, "Permission denied. Cannot access gallery.", Toast.LENGTH_SHORT).show();
             }
         }
     }

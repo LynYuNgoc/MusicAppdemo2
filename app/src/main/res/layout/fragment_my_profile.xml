@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,35 +14,86 @@
         android:id="@+id/img_avatar"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:src="@drawable/ic_avatar_default"/>
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_avatar_default"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.21" />
+
     <EditText
         android:id="@+id/edt_full_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="30dp"
+        android:background="@drawable/edittext_background"
         android:hint="Full name"
-        android:textColor="@color/white"/>
+        android:padding="10dp"
+        android:textColor="#d0d1d4"
+        android:textColorHint="#d0d1d4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.455" />
+
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_background"
         android:hint="Email"
-        android:textColor="@color/white"/>
+        android:padding="10dp"
+        android:textColor="#d0d1d4"
+        android:textColorHint="#d0d1d4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.564" />
+
     <Button
         android:id="@+id/btn_update"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Update Profile" />
+        android:background="@drawable/gradient_button_background"
+        android:enabled="true"
+        android:text="Update Profile"
+        android:textAllCaps="false"
+        android:textColor="@color/transWhite"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:theme="@style/ButtonGradient"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toTopOf="@+id/btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.941" />
+
     <Button
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Go Back" />
+        android:background="@drawable/gradient_button_background"
+        android:enabled="true"
+        android:text="Go Back"
+        android:textAllCaps="false"
+        android:textColor="@color/transWhite"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:theme="@style/ButtonGradient"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.828" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

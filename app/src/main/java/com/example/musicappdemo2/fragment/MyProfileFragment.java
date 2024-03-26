@@ -4,6 +4,7 @@ import static com.example.musicappdemo2.HomeActivity.MY_REQUEST_CODE;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,10 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +47,7 @@ public class MyProfileFragment extends Fragment {
 
 
    private ImageView imgAvatar;
+
    private EditText edtFullName, edtEmail;
    private Button btnUpdate,btnBack;
    private Uri mUri;
@@ -72,6 +77,7 @@ public class MyProfileFragment extends Fragment {
         btnUpdate=view.findViewById(R.id.btn_update);
         btnBack=view.findViewById(R.id.btn_back);
 
+
         reference= FirebaseDatabase.getInstance().getReference("users");
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +98,27 @@ public class MyProfileFragment extends Fragment {
                 }
             }
         });
+        imgAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickRequestPermission();
+            }
+        });
 
         setUserInformation();
         initListener();
         return view;
 
     }
-
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof HomeActivity) {
+            mHomeActivity = (HomeActivity) context;
+        } else {
+            throw new ClassCastException(context.toString() + " must implement HomeActivity");
+        }
+    }
     void setFragment(Fragment fragment) {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
@@ -117,8 +137,6 @@ public class MyProfileFragment extends Fragment {
             return false;
         }
     }
-
-
 
 
     private void setUserInformation() {
@@ -145,27 +163,52 @@ public class MyProfileFragment extends Fragment {
             }
         });
     }
-    private void  onClickRequestPermission() {
 
-        if(mHomeActivity==null)
-        {
+//    private void  onClickRequestPermission() {
+//
+//        if(mHomeActivity==null)
+//        {
+//            return;
+//        }
+//
+//        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+//            mHomeActivity.openGallery();
+//            return;
+//        }
+//        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED) {
+//            mHomeActivity.openGallery();
+//        } else {
+//            String [] permissions={Manifest.permission.READ_EXTERNAL_STORAGE};
+//            getActivity().requestPermissions(permissions,MY_REQUEST_CODE);
+//        }
+//
+//    }
+
+    private void onClickRequestPermission() {
+        if (mHomeActivity == null) {
             return;
         }
 
-        if(Build.VERSION.SDK_INT<Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mHomeActivity.openGallery();
             return;
         }
-        if (getActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED) {
+
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
             mHomeActivity.openGallery();
         } else {
-            String [] permissions={Manifest.permission.READ_EXTERNAL_STORAGE};
-            getActivity().requestPermissions(permissions,MY_REQUEST_CODE);
+            String[] permissions = {Manifest.permission.READ_MEDIA_IMAGES};
+            requestPermissions(permissions, MY_REQUEST_CODE);
         }
     }
-    public void setBitmapImageView(Bitmap bitmapImageView) {
-        imgAvatar.setImageBitmap(bitmapImageView);
 
+    public void setBitmapImageView(Bitmap bitmapImageView) {
+//        imgAvatar.setImageBitmap(bitmapImageView);
+        if (imgAvatar != null) {
+            imgAvatar.setImageBitmap(bitmapImageView);
+        } else {
+            Log.e("MyProfileFragment", "ImageView is null");
+        }
     }
     public void setUri(Uri mUri) {
         this.mUri=mUri;
